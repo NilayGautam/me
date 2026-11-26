@@ -1,0 +1,40 @@
+---
+title: A sample essay
+date: 2026-11-26
+summary: A placeholder that shows how essays look on this site. The first real essay replaces it.
+sample: true
+---
+
+This is a placeholder essay.
+It exists so the layout, type, and spacing of an essay can be checked before the first real one is written.
+Every element an essay is likely to use appears below.
+
+## A section heading
+
+Paragraphs are set in a single readable column.
+Lines stay short enough to read comfortably, and [links look like this](/).
+Inline code such as `pnpm dev` sits inside a sentence without breaking its rhythm.
+
+### A smaller heading
+
+- Lists keep their markers quiet.
+- Each item gets a little room to breathe.
+- Nested ideas belong in their own paragraph instead.
+
+1. Numbered lists work for steps.
+2. They use the mono font for numbers.
+
+> A blockquote is for a line worth slowing down for.
+
+## Code
+
+```python
+def match(name: str, candidates: list[str]) -> str | None:
+    """Return the best candidate for a company name, if any."""
+    scored = sorted(candidates, key=lambda c: score(name, c))
+    return scored[-1] if scored else None
+```
+
+---
+
+That is the whole format.
