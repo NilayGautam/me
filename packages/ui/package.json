@@ -1,0 +1,11 @@
+{
+  "name": "@nilaygautam/ui",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "tokens.css"
+  ],
+  "exports": {
+    "./tokens.css": "./tokens.css"
+  }
+}

@@ -1,0 +1,51 @@
+/*
+ * Design tokens for nilaygautam.com and every project under it.
+ * Colors, type, spacing, and motion come only from here.
+ */
+
+@theme {
+  /* Reset Tailwind's default palette so only these colors exist. */
+  --color-*: initial;
+
+  --color-bg: #0a0a0a;
+  --color-surface: #101010;
+  --color-raised: #161616;
+  --color-line: #222222;
+  --color-line-strong: #333333;
+  --color-fg: #ededed;
+  --color-muted: #a3a3a3;
+  --color-subtle: #7a7a7a;
+  --color-accent: #c6f36b;
+  --color-accent-fg: #0a0a0a;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --text-display: clamp(3.25rem, 1.6rem + 6.4vw, 7rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.045em;
+  --text-title: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --text-title--line-height: 1;
+  --text-title--letter-spacing: -0.035em;
+  --text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-lead--line-height: 1.35;
+  --text-lead--letter-spacing: -0.015em;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-tag: 0.6875rem;
+  --text-tag--line-height: 1;
+  --text-tag--letter-spacing: 0.08em;
+
+  --container-page: 72rem;
+  --container-reading: 40rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 700ms;
+}
