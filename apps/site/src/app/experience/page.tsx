@@ -4,12 +4,13 @@ import { PageHeader, Section, Tag } from "@/components/ui";
 import { getExperience } from "@/lib/content";
 import { formatPeriod } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/experience/",
   title: "Experience",
   description: "Where I have worked and what I built there.",
-  alternates: { canonical: "/experience/" },
-};
+});
 
 const statusLabel = { upcoming: "Upcoming", current: "Current", past: null } as const;
 

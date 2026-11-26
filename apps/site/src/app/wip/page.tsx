@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { ButtonLink, Section, SectionLabel, Tag } from "@/components/ui";
+import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
-  title: "Work in progress",
-  description: "This project is still being built.",
+  ...pageMetadata({
+    path: "/wip/",
+    title: "Work in progress",
+    description: "This project is still being built.",
+  }),
   robots: { index: false, follow: true },
 };
 

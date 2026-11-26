@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { PageHeader, Section } from "@/components/ui";
 import { getAbout } from "@/lib/content";
 import { Markdown } from "@/lib/mdx";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/about/",
   title: "About",
   description: "A little about me and what I am working toward.",
-  alternates: { canonical: "/about/" },
-};
+});
 
 export default async function AboutPage() {
   const about = await getAbout();

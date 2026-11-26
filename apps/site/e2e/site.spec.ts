@@ -134,3 +134,33 @@ for (const path of pages) {
     expect(overflow).toBe(0);
   });
 }
+
+const sharePreviews = [
+  { path: "/", title: "Nilay Gautam", type: "website", image: "/og.png" },
+  { path: "/about/", title: "About | Nilay Gautam", type: "website", image: "/og.png" },
+  { path: "/experience/", title: "Experience | Nilay Gautam", type: "website", image: "/og.png" },
+  { path: "/essays/", title: "Essays | Nilay Gautam", type: "website", image: "/og.png" },
+  {
+    path: "/essays/sample-essay/",
+    title: "A sample essay",
+    type: "article",
+    image: "/essays/sample-essay/og.png",
+  },
+  { path: "/wip/", title: "Work in progress | Nilay Gautam", type: "website", image: "/og.png" },
+];
+
+for (const preview of sharePreviews) {
+  test(`${preview.path} has its own share preview`, async ({ page }) => {
+    await page.goto(preview.path);
+    const og = (property: string) => page.locator(`meta[property="og:${property}"]`);
+    const url = `https://nilaygautam.com${preview.path}`;
+    await expect(og("url")).toHaveAttribute("content", url);
+    await expect(og("title")).toHaveAttribute("content", preview.title);
+    await expect(og("type")).toHaveAttribute("content", preview.type);
+    await expect(og("site_name")).toHaveAttribute("content", "Nilay Gautam");
+    await expect(og("locale")).toHaveAttribute("content", "en_US");
+    await expect(og("image")).toHaveAttribute("content", `https://nilaygautam.com${preview.image}`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", url);
+    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveCount(1);
+  });
+}

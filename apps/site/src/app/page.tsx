@@ -7,11 +7,10 @@ import { ButtonAnchor, ButtonLink, Section, SectionLabel, Tag } from "@/componen
 import { getNow } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
+import { pageMetadata } from "@/lib/metadata";
 import { site } from "@/site";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-};
+export const metadata: Metadata = pageMetadata({ path: "/" });
 
 /** Until the first project ships, the projects list holds one placeholder that leads to /wip. */
 const projects = [

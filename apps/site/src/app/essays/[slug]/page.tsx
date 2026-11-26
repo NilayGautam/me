@@ -6,6 +6,7 @@ import { Section, SectionLabel, Tag } from "@/components/ui";
 import { getEssay, getEssays } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
+import { openGraphBase, pageMetadata } from "@/lib/metadata";
 
 export const dynamicParams = false;
 
@@ -18,12 +19,13 @@ export async function generateMetadata({ params }: PageProps<"/essays/[slug]">):
   const { slug } = await params;
   const essay = await getEssay(slug);
   if (!essay) return {};
+  const path = `/essays/${essay.slug}/`;
   return {
-    title: essay.title,
-    description: essay.summary,
-    alternates: { canonical: `/essays/${essay.slug}/` },
+    ...pageMetadata({ path, title: essay.title, description: essay.summary }),
     openGraph: {
+      ...openGraphBase,
       type: "article",
+      url: path,
       title: essay.title,
       description: essay.summary,
       publishedTime: essay.date,

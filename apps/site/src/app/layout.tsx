@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { mono, sans } from "@/fonts";
+import { rssAlternate } from "@/lib/metadata";
 import { site } from "@/site";
 import "./globals.css";
 
@@ -15,18 +16,7 @@ export const metadata: Metadata = {
   description: site.tagline,
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
-  alternates: {
-    types: { "application/rss+xml": [{ url: "/rss.xml", title: `${site.name} essays` }] },
-  },
-  openGraph: {
-    type: "website",
-    siteName: site.name,
-    title: site.name,
-    description: site.tagline,
-    url: "/",
-    locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name}: ${site.tagline}` }],
-  },
+  alternates: { types: rssAlternate },
   twitter: { card: "summary_large_image" },
 };
 

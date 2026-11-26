@@ -5,12 +5,13 @@ import { Reveal } from "@/components/reveal";
 import { PageHeader, Section, Tag } from "@/components/ui";
 import { getEssays } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/essays/",
   title: "Essays",
   description: "Essays and notes by Nilay Gautam.",
-  alternates: { canonical: "/essays" },
-};
+});
 
 export default async function EssaysPage() {
   const essays = await getEssays();
