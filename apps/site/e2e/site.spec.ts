@@ -6,13 +6,13 @@ const pages = ["/", "/about/", "/experience/", "/essays/", "/essays/sample-essay
 test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
-  test("disables scroll reveals so content is fully visible", async ({ page }) => {
+  test("disables scroll reveals so content does not move", async ({ page }) => {
     await page.goto("/experience/");
-    const opacities = await page
+    const transforms = await page
       .locator("[data-reveal]")
-      .evaluateAll((els) => els.map((el) => getComputedStyle(el).opacity));
-    expect(opacities.length).toBeGreaterThan(0);
-    expect(opacities.every((o) => o === "1")).toBe(true);
+      .evaluateAll((els) => els.map((el) => getComputedStyle(el).transform));
+    expect(transforms.length).toBeGreaterThan(0);
+    expect(transforms.every((t) => t === "none")).toBe(true);
   });
 });
 
@@ -120,8 +120,7 @@ test("unknown pages show the 404 page", async ({ page }) => {
 
 for (const path of pages) {
   test(`${path} has no accessibility violations or horizontal overflow`, async ({ page }) => {
-    // Reduced motion keeps every scroll reveal at full opacity, so contrast is measured on final colors.
-    await page.emulateMedia({ reducedMotion: "reduce" });
+    // Default motion on purpose: scroll reveals that are mid-animation must still pass contrast.
     await page.goto(path);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
