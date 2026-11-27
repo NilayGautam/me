@@ -62,7 +62,8 @@ The current example is a research tool meant to replace Nilay's own role by turn
 - Copy: `content/about.md` (placeholder), `content/now.md`, and `content/experience/*.md` (three roles).
 - Essays: only `content/essays/sample-essay.mdx`, a format sample marked `sample: true`.
 - Projects: none shipped yet. The home page shows one placeholder that links to `/wip`.
-- No testimonials, metrics, press, or logos exist. Do not invent them.
+- Logos: only the company logos on Experience, in `apps/site/public/logos/`.
+- No testimonials, metrics, or press exist. Do not invent them.
 
 ## Product Principles
 
