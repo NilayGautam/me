@@ -72,7 +72,9 @@ export default async function ExperiencePage() {
                     <ol>
                       {group.roles.map((entry, index) => (
                         <li key={entry.slug} className="relative pb-12 pl-7 last:pb-0">
-                          {/* Timeline: a square marker per role, joined by a hairline when a company has several. */}
+                          {/* Timeline: a square marker per role, joined by a hairline when a company has several.
+                              The hairline stops 8px short of each marker: it starts 8px below this one and ends
+                              8px above the next, whose marker sits 1rem - 3px into its own item. */}
                           <span
                             aria-hidden="true"
                             className={`absolute top-[calc(1rem-3px)] left-0 size-1.5 ${
@@ -82,7 +84,7 @@ export default async function ExperiencePage() {
                           {index < group.roles.length - 1 ? (
                             <span
                               aria-hidden="true"
-                              className="absolute top-[calc(1rem+11px)] -bottom-[calc(1rem-5px)] left-[2.5px] w-px bg-line-strong"
+                              className="absolute top-[calc(1rem+11px)] -bottom-[5px] left-[2.5px] w-px bg-line-strong"
                             />
                           ) : null}
                           <Role entry={entry} />
