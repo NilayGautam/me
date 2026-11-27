@@ -27,6 +27,7 @@ One page that reads top to bottom:
 1. **Hero.**
    A photo of me, my name, and one short sentence.
    Two buttons sit under the sentence: **About** and **Contact**.
+   Under the buttons, a short facts line from the `headline` in `content/about.md`.
 2. **Projects.**
    A slight scroll below the hero.
    Each project shows a name, a one-line description, and a link to where it runs.
@@ -47,11 +48,11 @@ It is reached from the button in the hero.
 | Page             | Path             | Purpose                                                                                   |
 | ---------------- | ---------------- | ----------------------------------------------------------------------------------------- |
 | Home             | `/`              | Hero, projects, and Now.                                                                  |
-| About            | `/about`         | A paragraph about me.                                                                     |
+| About            | `/about`         | A paragraph about me, a short facts list, and links to Experience and Essays.             |
 | Experience       | `/experience`    | A list of my experiences that works as a live resume. No PDF and no separate resume page. |
 | Essays           | `/essays`        | A dated list of essays.                                                                   |
 | Essay            | `/essays/<slug>` | A single essay.                                                                           |
-| Work in progress | `/wip`           | Where placeholder project links lead until real projects ship.                            |
+| Work in progress | `/wip`           | The in-progress project's page until it ships on its own subdomain.                       |
 
 ### Contact
 
