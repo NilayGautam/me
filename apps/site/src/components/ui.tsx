@@ -3,22 +3,16 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight } from "./icons";
 
-/** Mono label like `01 / Projects` that names a section. */
-export function SectionLabel({ index, children }: { index?: string; children: ReactNode }) {
+/** Visible section heading. The heading carries the section; no labels or numbers above it. */
+export function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <p className="flex items-center gap-2 font-mono text-label text-subtle uppercase">
-      {index ? (
-        <>
-          <span className="text-muted">{index}</span>
-          <span aria-hidden="true">/</span>
-        </>
-      ) : null}
-      <span>{children}</span>
-    </p>
+    <h2 id={id} className="font-bold font-display text-3xl text-fg tracking-tight">
+      {children}
+    </h2>
   );
 }
 
-/** Small mono status tag. `accent` adds a live dot. */
+/** Small status tag in mono, since status is data. `accent` adds a live dot. */
 export function Tag({ children, accent = false }: { children: ReactNode; accent?: boolean }) {
   return (
     <span
@@ -83,25 +77,11 @@ export function ButtonAnchor({
 }
 
 /** Title block at the top of every inner page. */
-export function PageHeader({
-  label,
-  title,
-  children,
-}: {
-  label: string;
-  title: ReactNode;
-  children?: ReactNode;
-}) {
+export function PageHeader({ title, children }: { title: ReactNode; children?: ReactNode }) {
   return (
-    <header className="relative overflow-hidden border-line border-b px-6 pt-20 pb-12 sm:px-10 sm:pt-28 sm:pb-16">
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-60" />
-      <div className="relative">
-        <SectionLabel>{label}</SectionLabel>
-        <h1 className="mt-6 font-semibold text-title text-fg">{title}</h1>
-        {children ? (
-          <div className="mt-6 max-w-reading text-lead text-muted">{children}</div>
-        ) : null}
-      </div>
+    <header className="border-line border-b px-6 pt-20 pb-12 sm:px-10 sm:pt-28 sm:pb-16">
+      <h1 className="font-bold font-display text-title text-fg">{title}</h1>
+      {children ? <div className="mt-6 max-w-reading text-lead text-muted">{children}</div> : null}
     </header>
   );
 }

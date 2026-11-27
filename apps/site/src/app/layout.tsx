@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { mono, sans } from "@/fonts";
+import { display, mono, sans } from "@/fonts";
 import { rssAlternate } from "@/lib/metadata";
 import { site } from "@/site";
 import "./globals.css";
@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable} ${display.variable}`}>
       <body className="min-h-svh">
         <a
           href="#main"

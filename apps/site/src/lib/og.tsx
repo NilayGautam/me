@@ -7,11 +7,16 @@ export const ogSize = { width: 1200, height: 630 };
 
 const fontDir = path.join(process.cwd(), "node_modules/geist/dist/fonts");
 
-/** Shared Open Graph card: dark, gridded, big type. Rendered once at build time. */
-export async function renderOgImage({ title, eyebrow }: { title: string; eyebrow: string }) {
-  const [sans, mono] = await Promise.all([
-    readFile(path.join(fontDir, "geist-sans/Geist-SemiBold.ttf")),
-    readFile(path.join(fontDir, "geist-mono/GeistMono-Regular.ttf")),
+/** Shared Open Graph card: plain dark surface, big type, one rule. Rendered once at build time. */
+export async function renderOgImage({ title, subtitle }: { title: string; subtitle: string }) {
+  const [display, regular] = await Promise.all([
+    readFile(
+      path.join(
+        process.cwd(),
+        "node_modules/@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff",
+      ),
+    ),
+    readFile(path.join(fontDir, "geist-sans/Geist-Regular.ttf")),
   ]);
 
   return new ImageResponse(
@@ -24,59 +29,47 @@ export async function renderOgImage({ title, eyebrow }: { title: string; eyebrow
         height: "100%",
         padding: "72px 80px",
         backgroundColor: "#0a0a0a",
-        backgroundImage:
-          "linear-gradient(to right, #1a1a1a 1px, transparent 1px), linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)",
-        backgroundSize: "48px 48px",
         color: "#ededed",
+        fontFamily: "Geist",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 14,
-          fontFamily: "Geist Mono",
-          fontSize: 22,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "#a3a3a3",
-        }}
-      >
-        <div style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: "#c6f36b" }} />
-        {eyebrow}
+      <div style={{ display: "flex", fontSize: 28, fontWeight: 400, color: "#a3a3a3" }}>
+        {new URL(site.url).host}
       </div>
-      <div
-        style={{
-          display: "flex",
-          fontFamily: "Geist",
-          fontSize: title.length > 28 ? 88 : 120,
-          lineHeight: 0.95,
-          letterSpacing: "-0.045em",
-          maxWidth: 1000,
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          fontFamily: "Geist Mono",
-          fontSize: 22,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "#7a7a7a",
-        }}
-      >
-        <span>{site.name}</span>
-        <span>{new URL(site.url).host}</span>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            fontFamily: "Inter Tight",
+            fontSize: title.length > 28 ? 88 : 120,
+            fontWeight: 700,
+            lineHeight: 0.95,
+            letterSpacing: "-0.025em",
+            maxWidth: 1000,
+          }}
+        >
+          {title}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            marginTop: 40,
+            paddingTop: 32,
+            borderTop: "1px solid #333333",
+            fontSize: 36,
+            fontWeight: 400,
+            color: "#a3a3a3",
+          }}
+        >
+          {subtitle}
+        </div>
       </div>
     </div>,
     {
       ...ogSize,
       fonts: [
-        { name: "Geist", data: sans, weight: 600, style: "normal" },
-        { name: "Geist Mono", data: mono, weight: 400, style: "normal" },
+        { name: "Inter Tight", data: display, weight: 700, style: "normal" },
+        { name: "Geist", data: regular, weight: 400, style: "normal" },
       ],
     },
   );

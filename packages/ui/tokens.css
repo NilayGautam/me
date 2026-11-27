@@ -23,20 +23,18 @@
   --color-current: currentColor;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-geist-sans), ui-sans-serif, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
-  --text-display: clamp(3.25rem, 1.6rem + 6.4vw, 7rem);
+  --text-display: clamp(3.25rem, 1.8rem + 5.4vw, 6rem);
   --text-display--line-height: 0.92;
-  --text-display--letter-spacing: -0.045em;
+  --text-display--letter-spacing: -0.025em;
   --text-title: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
   --text-title--line-height: 1;
-  --text-title--letter-spacing: -0.035em;
+  --text-title--letter-spacing: -0.02em;
   --text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
   --text-lead--line-height: 1.35;
   --text-lead--letter-spacing: -0.015em;
-  --text-label: 0.75rem;
-  --text-label--line-height: 1rem;
-  --text-label--letter-spacing: 0.08em;
   --text-tag: 0.6875rem;
   --text-tag--line-height: 1;
   --text-tag--letter-spacing: 0.08em;

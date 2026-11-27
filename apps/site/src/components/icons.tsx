@@ -42,3 +42,19 @@ export function ArrowUpRight(props: IconProps) {
     </Icon>
   );
 }
+
+export function Copy(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5.5 5.5V2.5h8v8h-3M2.5 5.5h8v8h-8z" />
+    </Icon>
+  );
+}
+
+export function Check(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 8.5 6.5 12 13 4.5" />
+    </Icon>
+  );
+}

@@ -7,7 +7,7 @@ Merging to `main` runs CI, then deploys with `wrangler deploy` from `apps/site`.
 
 - `apps/site/wrangler.jsonc` defines the Worker, the static files it serves from `out/`, and the `nilaygautam.com` and `www.nilaygautam.com` custom domains.
 - Custom domains create their own DNS records and certificates, so there is nothing to set up in the DNS dashboard.
-- `apps/site/src/worker.ts` redirects `www` to the apex with a 301 and hands every other request to the static files.
+- `apps/site/src/worker.ts` redirects `www` to the apex with a 301, serves every other request from the static files, and adds the security and cache headers described in [`spec/Tech.md`](../spec/Tech.md#main-site).
 - CI runs `wrangler deploy --dry-run` on every pull request, so a broken Worker config fails before it reaches `main`.
 
 ## One-time setup

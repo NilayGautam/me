@@ -15,7 +15,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <PageHeader label="/about" title="About me" />
+      <PageHeader title="About me" />
       <Section>
         <div className="prose text-lg">
           <Markdown source={about.body} />

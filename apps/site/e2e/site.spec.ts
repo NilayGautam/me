@@ -3,19 +3,6 @@ import { expect, test } from "@playwright/test";
 
 const pages = ["/", "/about/", "/experience/", "/essays/", "/essays/sample-essay/", "/wip/"];
 
-test.describe("reduced motion", () => {
-  test.use({ reducedMotion: "reduce" });
-
-  test("disables scroll reveals so content does not move", async ({ page }) => {
-    await page.goto("/experience/");
-    const transforms = await page
-      .locator("[data-reveal]")
-      .evaluateAll((els) => els.map((el) => getComputedStyle(el).transform));
-    expect(transforms.length).toBeGreaterThan(0);
-    expect(transforms.every((t) => t === "none")).toBe(true);
-  });
-});
-
 test.describe("home", () => {
   test("shows the hero, projects, and now", async ({ page }) => {
     await page.goto("/");
@@ -25,10 +12,7 @@ test.describe("home", () => {
       page.getByText("Always learning, solving, building, and loving it."),
     ).toBeVisible();
     await expect(page.getByRole("img", { name: /Nilay Gautam/ })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Contact" })).toHaveAttribute(
-      "href",
-      "mailto:hello@nilaygautam.com",
-    );
+    await expect(page.getByRole("link", { name: "Contact" })).toHaveAttribute("href", "#contact");
     await expect(page.getByRole("region", { name: "Projects" })).toBeAttached();
     await expect(page.getByRole("region", { name: "Now" })).toContainText(
       "Replacing myself at my research job.",
@@ -52,7 +36,38 @@ test.describe("home", () => {
   });
 });
 
+test.describe("contact", () => {
+  test("hero Contact button jumps to the footer contact line", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: "Contact" }).click();
+    await expect(page).toHaveURL(/#contact$/);
+    await expect(page.locator("#contact")).toBeInViewport();
+  });
+
+  test("clicking the email copies it to the clipboard", async ({ page, context }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.goto("/about/");
+    const button = page.getByRole("button", { name: "Copy email address hello@nilaygautam.com" });
+    await button.click();
+    await expect(page.getByText("Email address copied")).toBeAttached();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("hello@nilaygautam.com");
+  });
+});
+
 test.describe("navigation", () => {
+  test("header home link reads Home on the home page and the name elsewhere", async ({ page }) => {
+    await page.goto("/");
+    const banner = page.getByRole("banner");
+    await expect(banner.getByRole("link").first()).toHaveText("Home");
+    await expect(banner.getByRole("link").first()).toHaveAttribute("href", "/");
+
+    await page.goto("/experience/");
+    await expect(banner.getByRole("link").first()).toHaveText("Nilay Gautam");
+    await banner.getByRole("link", { name: "Nilay Gautam" }).click();
+    await expect(page).toHaveURL("/");
+    await expect(banner.getByRole("link").first()).toHaveText("Home");
+  });
+
   test("top nav reaches experience and essays and marks the current page", async ({ page }) => {
     await page.goto("/");
     const nav = page.getByRole("navigation", { name: "Main" });
@@ -70,13 +85,12 @@ test.describe("navigation", () => {
     await expect(nav.getByRole("link", { name: "Essays" })).toHaveAttribute("aria-current", "page");
   });
 
-  test("footer links to email, GitHub, and LinkedIn", async ({ page }) => {
+  test("footer shows the contact email and links to GitHub and LinkedIn", async ({ page }) => {
     await page.goto("/");
     const footer = page.getByRole("contentinfo");
-    await expect(footer.getByRole("link", { name: "Email" })).toHaveAttribute(
-      "href",
-      "mailto:hello@nilaygautam.com",
-    );
+    await expect(footer.getByText("Contact:")).toBeVisible();
+    await expect(footer.getByText("hello@nilaygautam.com")).toBeVisible();
+    await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
     await expect(footer.getByRole("link", { name: "GitHub" })).toHaveAttribute(
       "href",
       "https://github.com/NilayGautam/",
@@ -120,7 +134,6 @@ test("unknown pages show the 404 page", async ({ page }) => {
 
 for (const path of pages) {
   test(`${path} has no accessibility violations or horizontal overflow`, async ({ page }) => {
-    // Default motion on purpose: scroll reveals that are mid-animation must still pass contrast.
     await page.goto(path);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])

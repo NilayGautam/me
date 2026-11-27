@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ButtonLink, Section, SectionLabel, Tag } from "@/components/ui";
+import { ButtonLink, Section } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = {
@@ -13,14 +13,11 @@ export const metadata: Metadata = {
 
 export default function WorkInProgressPage() {
   return (
-    <Section className="relative flex flex-1 flex-col justify-center overflow-hidden">
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0" />
-      <div className="relative">
-        <div className="flex items-center gap-3">
-          <SectionLabel>Project</SectionLabel>
-          <Tag accent>In progress</Tag>
-        </div>
-        <h1 className="mt-6 max-w-[14ch] font-semibold text-title text-fg">Still being built.</h1>
+    <Section className="flex flex-1 flex-col justify-center">
+      <div>
+        <h1 className="max-w-[14ch] font-bold font-display text-title text-fg">
+          Still being built.
+        </h1>
         <p className="mt-6 max-w-reading text-lead text-muted">
           This project is not live yet. When it ships, it will run here on its own subdomain.
         </p>
