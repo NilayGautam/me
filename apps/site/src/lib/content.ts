@@ -94,6 +94,35 @@ export async function getExperience(today: Date = new Date()): Promise<Experienc
   return entries.sort((a, b) => b.start.localeCompare(a.start));
 }
 
+export type ExperienceGroup = {
+  org: string;
+  roles: Experience[];
+  start: string;
+  end: string | undefined;
+  status: Experience["status"];
+};
+
+/**
+ * Groups roles by company, the way LinkedIn shows several roles under one employer.
+ * Companies keep the order of their newest role, and roles stay newest first.
+ */
+export function groupExperience(entries: Experience[]): ExperienceGroup[] {
+  const groups = new Map<string, Experience[]>();
+  for (const entry of entries) groups.set(entry.org, [...(groups.get(entry.org) ?? []), entry]);
+  return [...groups].map(([org, roles]) => {
+    const statuses = new Set(roles.map((role) => role.status));
+    const ends = roles.flatMap((role) => (role.end ? [role.end] : [])).sort();
+    return {
+      org,
+      roles,
+      // Roles arrive newest first, so the last one started earliest.
+      start: roles.at(-1)?.start ?? "",
+      end: ends.length === roles.length ? ends.at(-1) : undefined,
+      status: statuses.has("current") ? "current" : statuses.has("upcoming") ? "upcoming" : "past",
+    };
+  });
+}
+
 export async function getEssays(options: { includeSamples?: boolean } = {}): Promise<Essay[]> {
   const files = await listFiles("essays");
   const essays = await Promise.all(

@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Weekly rebuild so time-based text stays true without a push: Experience durations
+  # ("1 yr 2 mos") and Current / Upcoming tags are computed at build time.
+  schedule:
+    - cron: "17 6 * * 1"
 
 permissions:
   contents: read
