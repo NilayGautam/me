@@ -37,7 +37,7 @@ One page that reads top to bottom:
 ### Top nav
 
 - **Experience**
-- **Essays**, shown only once a real (non-sample) essay is published.
+- **Essays**
 
 About is not in the nav.
 It is reached from the button in the hero.

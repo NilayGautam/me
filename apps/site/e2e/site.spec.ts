@@ -68,11 +68,10 @@ test.describe("navigation", () => {
     await expect(banner.getByRole("link").first()).toHaveText("Home");
   });
 
-  test("top nav reaches experience and marks the current page", async ({ page }) => {
+  test("top nav reaches experience and essays and marks the current page", async ({ page }) => {
     await page.goto("/");
     const nav = page.getByRole("navigation", { name: "Main" });
-    // Essays joins the nav once a real essay is published; today only the sample exists.
-    await expect(nav.getByRole("link")).toHaveText(["Experience"]);
+    await expect(nav.getByRole("link")).toHaveText(["Experience", "Essays"]);
 
     await nav.getByRole("link", { name: "Experience" }).click();
     await expect(page).toHaveURL("/experience/");
@@ -80,6 +79,10 @@ test.describe("navigation", () => {
       "aria-current",
       "page",
     );
+
+    await nav.getByRole("link", { name: "Essays" }).click();
+    await expect(page).toHaveURL("/essays/");
+    await expect(nav.getByRole("link", { name: "Essays" })).toHaveAttribute("aria-current", "page");
   });
 
   test("footer shows the contact email and links to GitHub and LinkedIn", async ({ page }) => {
@@ -117,8 +120,6 @@ test("sample essay is listed, readable, and kept out of the sitemap", async ({ p
 
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).not.toContain("sample-essay");
-  // With no real essays yet, the essays index stays out of the sitemap too.
-  expect(sitemap).not.toContain("/essays/");
   expect(sitemap).not.toContain("/wip");
 });
 

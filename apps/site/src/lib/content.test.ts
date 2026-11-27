@@ -5,7 +5,6 @@ import {
   getEssays,
   getExperience,
   getNow,
-  hasPublishedEssays,
   parseFrontmatter,
 } from "./content";
 import { formatDate, formatMonth, formatPeriod } from "./format";
@@ -67,7 +66,5 @@ describe("content folder", () => {
   it("has valid experience and essays", async () => {
     expect((await getExperience()).length).toBeGreaterThan(0);
     expect((await getEssays()).length).toBeGreaterThan(0);
-    // The only essay today is the sample, so the Essays tab is hidden.
-    expect(await hasPublishedEssays()).toBe(false);
   });
 });

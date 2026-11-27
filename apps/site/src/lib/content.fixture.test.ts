@@ -2,7 +2,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 process.env.CONTENT_DIR = path.join(import.meta.dirname, "fixtures/content");
-const { getEssays, getExperience, hasPublishedEssays } = await import("./content");
+const { getEssays, getExperience } = await import("./content");
 
 describe("content from fixtures", () => {
   it("lists experience newest first, not in file name order", async () => {
@@ -22,9 +22,5 @@ describe("content from fixtures", () => {
   it("leaves sample essays out when asked", async () => {
     const essays = await getEssays({ includeSamples: false });
     expect(essays.map((e) => e.slug)).toEqual(["c-second", "b-first"]);
-  });
-
-  it("counts essays as published only when a real one exists", async () => {
-    expect(await hasPublishedEssays()).toBe(true);
   });
 });
