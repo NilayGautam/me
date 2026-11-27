@@ -27,7 +27,8 @@
 | Containers             | Docker                                                 |
 | Infrastructure as code | Terraform                                              |
 | CI/CD                  | GitHub Actions                                         |
-| Cloud                  | Azure, paid for by the Azure for Students credit       |
+| Site hosting           | Cloudflare Workers static assets, free plan            |
+| Project cloud          | Azure, paid for by the Azure for Students credit       |
 | DNS and registrar      | Cloudflare                                             |
 
 ## Repo layout
@@ -42,7 +43,7 @@ me/
     ui/                # shared design tokens and components
     config/            # shared TypeScript and Biome config
   content/             # site copy and essays as Markdown/MDX
-  infra/               # Terraform for all Azure resources
+  infra/               # Terraform for Azure project resources (Phase 4)
   spec/                # this constitution
   .github/workflows/   # CI and deploys
 ```
@@ -53,15 +54,18 @@ Projects may use any stack inside their folder, as long as they ship as a contai
 
 ### Main site
 
-- **Azure Static Web Apps, Free plan.**
-  Always free, includes a custom domain and managed SSL, and does not draw on the credit.
+- **Cloudflare Workers static assets, free plan.**
+  Always free, includes custom domains and managed SSL, and does not depend on being a student.
+- Azure Static Web Apps was the first plan, but the Azure for Students subscription only allows a few European regions and Static Web Apps is not offered in any of them.
 - Next.js builds with `output: "export"` to plain static files.
+- `apps/site/wrangler.jsonc` defines the Worker and its custom domains.
 - `nilaygautam.com` is the canonical host.
-  `www.nilaygautam.com` redirects to it.
+  `www.nilaygautam.com` redirects to it with a 301 from `apps/site/src/worker.ts`.
 
 ### Projects
 
 - **Azure Container Apps, Consumption plan**, one Container App per project in a single shared environment.
+- Everything Azure goes in a region the subscription allows, currently Sweden Central.
 - `minReplicas = 0` on every app.
   Cold starts of a few seconds are an accepted tradeoff.
 - Each project gets its own subdomain, `<name>.nilaygautam.com`, with a free Azure managed certificate.
@@ -72,7 +76,7 @@ Projects may use any stack inside their folder, as long as they ship as a contai
 
 - DNS stays on Cloudflare.
 - Records pointing at Azure start as **DNS only** (not proxied) so Azure domain validation and certificate issuance succeed.
-- The apex domain uses TXT validation on Static Web Apps plus Cloudflare CNAME flattening.
+- The apex and `www` records are created and owned by the Worker's custom domains.
 - `hello@nilaygautam.com` uses Cloudflare Email Routing, which is free and forwards to my personal inbox.
 
 ### Cost guardrails
@@ -87,11 +91,12 @@ Projects may use any stack inside their folder, as long as they ship as a contai
 ## CI/CD
 
 - Every pull request runs Biome, type checks, Vitest, a build, and Playwright against the built site.
-- Merging to `main` deploys the site to Static Web Apps.
+- Merging to `main` deploys the site to Cloudflare Workers with `wrangler deploy`.
 - Changes to a project folder build its image, push it to ghcr.io, and roll out its Container App.
 - Changes to `infra/` run `terraform plan` on PRs and `terraform apply` on `main`.
-- GitHub Actions authenticates to Azure with OIDC federated credentials.
-  No long-lived secrets.
+- GitHub Actions authenticates to Azure with OIDC federated credentials on a user-assigned managed identity, because the university directory blocks app registrations.
+  No long-lived Azure secrets.
+- The Cloudflare API token is a secret on the `production` environment, which only `main` can use.
 
 ## Quality bars
 

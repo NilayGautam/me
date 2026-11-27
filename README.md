@@ -31,5 +31,5 @@ pnpm e2e          # build, then Playwright
 
 ## Deploy
 
-Pushes to `main` run CI, then deploy to Azure Static Web Apps.
-First-time setup is in [`docs/deploy.md`](docs/deploy.md).
+Pushes to `main` run CI, then deploy to Cloudflare Workers.
+Details are in [`docs/deploy.md`](docs/deploy.md).

@@ -40,6 +40,12 @@ jobs:
       - name: Build
         run: pnpm turbo run build
 
+      # Bundles the worker and checks wrangler.jsonc without deploying.
+      # Keep the wrangler version in sync with deploy-site.yml.
+      - name: Check Cloudflare Workers config
+        working-directory: apps/site
+        run: pnpm dlx wrangler@4.161.0 deploy --dry-run --outdir dist-worker
+
       - name: Install Playwright browser
         run: pnpm --filter @nilaygautam/site exec playwright install --with-deps chromium
 

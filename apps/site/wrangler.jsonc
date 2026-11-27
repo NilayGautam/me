@@ -1,0 +1,23 @@
+// Cloudflare Workers config for nilaygautam.com.
+// Deployed by .github/workflows/deploy-site.yml after `next build` writes `out/`.
+{
+  "name": "nilaygautam-site",
+  "account_id": "0e42f6da20e032fe285677f481f700d3",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    // The worker must see www requests to redirect them, even when a matching file exists.
+    "run_worker_first": true
+  },
+  // Custom domains create and own their DNS records and certificates.
+  "routes": [
+    { "pattern": "nilaygautam.com", "custom_domain": true },
+    { "pattern": "www.nilaygautam.com", "custom_domain": true }
+  ],
+  "workers_dev": false,
+  "preview_urls": false
+}
