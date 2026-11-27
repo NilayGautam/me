@@ -31,7 +31,11 @@ test.describe("home", () => {
     await page.goto("/");
     await page.getByRole("link", { name: /Research script builder/ }).click();
     await expect(page).toHaveURL("/wip/");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Still being built.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Research script builder");
+    await expect(page.getByRole("link", { name: /How I'm building it/ })).toHaveAttribute(
+      "href",
+      "/experience/",
+    );
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   });
 });
@@ -107,9 +111,7 @@ test("experience groups roles by company, newest first", async ({ page }) => {
   // Each company is a heading named by its logo's alt text, with its roles as subheadings.
   const companies = page.getByRole("heading", { level: 2 });
   await expect(companies).toHaveCount(2);
-  await expect(companies.nth(0).getByRole("img")).toHaveAccessibleName(
-    "Sub-Zero Group: Wolf, Sub-Zero, and Cove",
-  );
+  await expect(companies.nth(0)).toHaveAccessibleName("Sub-Zero Group");
   await expect(companies.nth(1).getByRole("img")).toHaveAccessibleName("Iowa State University");
   await expect(page.getByRole("heading", { level: 3 })).toHaveText([
     "Data Governance Co-op",
@@ -124,7 +126,9 @@ test("experience groups roles by company, newest first", async ({ page }) => {
   await expect(iowaState.getByText("1 yr", { exact: false })).toBeVisible();
 
   // An upcoming company shows its dates and tag, but no time there yet.
-  const subZero = page.getByRole("article").filter({ has: page.getByAltText(/Sub-Zero Group/) });
+  const subZero = page
+    .getByRole("article")
+    .filter({ has: page.getByRole("heading", { level: 2, name: "Sub-Zero Group" }) });
   await expect(subZero.getByText("Jan 2027 - Aug 2027")).toBeVisible();
   await expect(subZero.getByText("Upcoming")).toBeVisible();
   await expect(subZero.getByText(/\b\d+ (mos?|yrs?)\b/)).toHaveCount(0);
@@ -174,7 +178,12 @@ const sharePreviews = [
     type: "article",
     image: "/essays/sample-essay/og.png",
   },
-  { path: "/wip/", title: "Work in progress | Nilay Gautam", type: "website", image: "/og.png" },
+  {
+    path: "/wip/",
+    title: "Research script builder | Nilay Gautam",
+    type: "website",
+    image: "/og.png",
+  },
 ];
 
 for (const preview of sharePreviews) {

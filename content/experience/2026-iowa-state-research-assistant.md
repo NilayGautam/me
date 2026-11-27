@@ -9,8 +9,12 @@ I started by building simulation software in Python, JavaScript, HTML, and CSS t
 
 Now I'm building a reusable data-matching pipeline.
 The professor uploads dataset schemas and chooses what should be linked to what.
-The hard part is joining datasets on a key like GVKEY when every dataset spells company names differently.
-The pipeline first narrows the field with fuzzy, lexical, and mathematical matching, then JEV, a decision model by Typesafe, makes the final call on each candidate, which gives a reliable key to join two or more datasets for analysis.
-The pipeline will live on this site, and its output is a Python script that asks for the API keys it needs and runs the matching, building, or enrichment steps.
+
+The hard part is joining datasets on a shared company ID, like GVKEY in finance research, when every dataset spells company names differently.
+The pipeline first narrows the candidates with fuzzy, lexical, and mathematical matching.
+Then JEV, a decision model by Typesafe, makes the final call on each one, which gives a reliable key for joining two or more datasets.
+
+The pipeline will live on this site.
+Its output is a Python script that asks for the API keys it needs and runs the matching, building, or enrichment steps.
 
 Each week my manager and I turn research questions into technical plans, and they review my code.

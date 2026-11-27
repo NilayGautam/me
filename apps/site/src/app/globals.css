@@ -25,6 +25,18 @@
     font-feature-settings: "ss01", "cv11";
   }
 
+  /* No lone word on a paragraph's last line; headings break into even lines. */
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
   ::selection {
     background-color: var(--color-accent);
     color: var(--color-accent-fg);
@@ -38,6 +50,27 @@
 }
 
 @layer components {
+  /* From lg the hero photo bleeds to the right edge and fades left behind the name and down into
+     the page, like the phone hero's fade. Two gradients intersect so both edges dissolve. */
+  @media (min-width: 64rem) {
+    .hero-photo {
+      /* Eased stops: a straight ramp starts abruptly and leaves a faint vertical line. */
+      mask-image:
+        linear-gradient(
+          to right,
+          rgb(0 0 0 / 0) 0%,
+          rgb(0 0 0 / 0.04) 8%,
+          rgb(0 0 0 / 0.14) 16%,
+          rgb(0 0 0 / 0.32) 24%,
+          rgb(0 0 0 / 0.56) 32%,
+          rgb(0 0 0 / 0.8) 40%,
+          #000 50%
+        ),
+        linear-gradient(to top, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.35) 8%, #000 24%);
+      mask-composite: intersect;
+    }
+  }
+
   .prose {
     max-width: var(--container-reading);
     color: var(--color-muted);

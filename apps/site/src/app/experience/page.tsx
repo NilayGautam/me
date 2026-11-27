@@ -22,7 +22,15 @@ const statusLabel = { upcoming: "Upcoming", current: "Current", past: null } as 
  */
 const orgLogos: Record<
   string,
-  { src: string; alt: string; width: number; height: number; className: string }
+  {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    className: string;
+    /** Shown under the logo when the logo alone does not spell out the company name. */
+    name?: string;
+  }
 > = {
   "Iowa State University": {
     src: "/logos/iowa-state-university.svg",
@@ -33,10 +41,11 @@ const orgLogos: Record<
   },
   "Sub-Zero Group": {
     src: "/logos/sub-zero-group.webp",
-    alt: "Sub-Zero Group: Wolf, Sub-Zero, and Cove",
+    alt: "Wolf, Sub-Zero, and Cove",
     width: 1063,
     height: 96,
     className: "h-7",
+    name: "Sub-Zero Group",
   },
 };
 
@@ -66,7 +75,14 @@ export default async function ExperiencePage() {
                         {duration ? (
                           <p className="text-muted text-sm tabular-nums">{duration}</p>
                         ) : null}
-                        {status ? <Tag accent={group.status === "current"}>{status}</Tag> : null}
+                        {status ? (
+                          <Tag
+                            accent={group.status === "current"}
+                            upcoming={group.status === "upcoming"}
+                          >
+                            {status}
+                          </Tag>
+                        ) : null}
                       </div>
                     ) : null}
                   </div>
@@ -80,7 +96,11 @@ export default async function ExperiencePage() {
                           <span
                             aria-hidden="true"
                             className={`absolute top-[calc(1rem-3px)] left-0 size-1.5 ${
-                              entry.status === "current" ? "bg-accent" : "bg-subtle"
+                              {
+                                current: "bg-accent",
+                                upcoming: "border border-subtle",
+                                past: "bg-subtle",
+                              }[entry.status]
                             }`}
                           />
                           {index < group.roles.length - 1 ? (
@@ -128,13 +148,21 @@ function Role({ entry }: { entry: Experience }) {
 function OrgName({ org }: { org: string }) {
   const logo = orgLogos[org];
   if (!logo) return <span className="font-medium text-fg text-lg">{org}</span>;
-  return (
+  const image = (
     <Image
       src={logo.src}
-      alt={logo.alt}
+      alt={logo.name ? "" : logo.alt}
       width={logo.width}
       height={logo.height}
       className={`${logo.className} w-auto max-w-full object-contain object-left`}
     />
+  );
+  if (!logo.name) return image;
+  // The visible name labels the heading; the brand marks above it are decoration.
+  return (
+    <span className="flex flex-col items-start gap-2">
+      {image}
+      <span className="font-normal text-muted text-sm">{logo.name}</span>
+    </span>
   );
 }
