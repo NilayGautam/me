@@ -66,4 +66,6 @@ jobs:
             apps/site/playwright-report
             apps/site/test-results
             apps/site/.lighthouseci
+          # .lighthouseci is a dot directory, which the upload skips unless told otherwise.
+          include-hidden-files: true
           retention-days: 7
