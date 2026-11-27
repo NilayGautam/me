@@ -37,7 +37,7 @@ One page that reads top to bottom:
 ### Top nav
 
 - **Experience**
-- **Essays**
+- **Essays**, shown only once a real (non-sample) essay is published.
 
 About is not in the nav.
 It is reached from the button in the hero.
@@ -64,7 +64,7 @@ It is reached from the button in the hero.
 ### Projects
 
 Each project runs live on its own subdomain, for example `project.nilaygautam.com`.
-Until the first project ships, the projects section shows a placeholder card that links to `/wip`.
+Until the first project ships, the projects section lists it by name as in progress and links to `/wip`.
 
 ### Photo
 

@@ -14,13 +14,19 @@ export const metadata: Metadata = pageMetadata({ path: "/" });
 /** Until the first project ships, the projects list holds one placeholder that leads to /wip. */
 const projects = [
   {
-    name: "First project",
-    description: "Being built right now. It will run live on its own subdomain.",
+    name: "Research script builder",
+    description:
+      "Describe the data you have and the result you want. Get back a script that does the work.",
     href: "/wip",
     status: "In progress",
   },
 ] as const;
 
+/**
+ * The hero is sized from the viewport so the Projects heading always shows above the fold, which tells
+ * visitors there is more below. On desktop the fold cuts through the first project row (13.75rem of
+ * Projects showing); on smaller screens the portrait shrinks with the viewport so the heading stays in view.
+ */
 export default async function HomePage() {
   const now = await getNow();
   const [firstName, ...rest] = site.name.split(" ");
@@ -28,7 +34,7 @@ export default async function HomePage() {
   return (
     <>
       <section aria-labelledby="hero-title" className="border-line border-b">
-        <div className="grid gap-12 px-6 pt-10 pb-16 sm:px-10 sm:pt-16 lg:min-h-[calc(100svh-4rem-7rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-20 lg:pb-20">
+        <div className="grid gap-12 px-6 pt-10 pb-16 sm:px-10 sm:pt-16 lg:min-h-[calc(100svh-4rem-13.75rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-12 lg:pb-14">
           <div className="order-2 lg:order-1 lg:col-span-7">
             <h1 id="hero-title" className="font-bold font-display text-display text-fg">
               {firstName}
@@ -45,8 +51,8 @@ export default async function HomePage() {
               </ButtonAnchor>
             </div>
           </div>
-          <div className="order-1 lg:order-2 lg:col-span-5">
-            <figure className="relative aspect-4/5 w-full max-w-60 overflow-hidden rounded-lg border border-line bg-surface sm:max-w-72 lg:max-w-none">
+          <div className="order-1 lg:order-2 lg:col-span-5 lg:@container">
+            <figure className="relative aspect-4/5 h-[clamp(12.5rem,calc(100svh-38.5rem),18.75rem)] overflow-hidden rounded-lg border border-line bg-surface sm:h-[clamp(15rem,calc(100svh-45.5rem),22.5rem)] lg:ml-auto lg:h-[clamp(20rem,calc(100svh-24.25rem),125cqw)]">
               <Portrait sizes="(min-width: 1152px) 440px, (min-width: 1024px) 38vw, (min-width: 640px) 288px, 240px" />
             </figure>
           </div>

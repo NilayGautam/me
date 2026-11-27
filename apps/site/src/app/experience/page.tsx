@@ -8,7 +8,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   path: "/experience/",
   title: "Experience",
-  description: "Where I have worked and what I built there.",
+  description: "Where I've worked and what I built there.",
 });
 
 const statusLabel = { upcoming: "Upcoming", current: "Current", past: null } as const;

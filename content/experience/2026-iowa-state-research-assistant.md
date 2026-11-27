@@ -13,4 +13,4 @@ The hard part is joining datasets on a key like GVKEY when every dataset spells 
 The pipeline first narrows the field with fuzzy, lexical, and mathematical matching, then JEV, a decision model by Typesafe, makes the final call on each candidate, which gives a reliable key to join two or more datasets for analysis.
 The pipeline will live on this site, and its output is a Python script that asks for the API keys it needs and runs the matching, building, or enrichment steps.
 
-I meet with my manager every week to turn research questions into technical plans and review my code.
+Each week my manager and I turn research questions into technical plans, and they review my code.

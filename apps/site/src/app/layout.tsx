@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { display, sans } from "@/fonts";
+import { hasPublishedEssays } from "@/lib/content";
 import { site } from "@/site";
 import "./globals.css";
 
@@ -23,7 +24,8 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const showEssays = await hasPublishedEssays();
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="min-h-svh">
@@ -34,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <div className="mx-auto flex min-h-svh max-w-page flex-col border-line border-x">
-          <Header />
+          <Header showEssays={showEssays} />
           <main id="main" className="flex flex-1 flex-col">
             {children}
           </main>

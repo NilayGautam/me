@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/site";
 
-const nav = [
-  { href: "/experience", label: "Experience" },
-  { href: "/essays", label: "Essays" },
-] as const;
+const experience = { href: "/experience", label: "Experience" } as const;
+const essays = { href: "/essays", label: "Essays" } as const;
 
-export function Header() {
+/** `showEssays` stays false until a real essay is published, so visitors never land on an empty list. */
+export function Header({ showEssays }: { showEssays: boolean }) {
   const pathname = usePathname();
+  const nav = showEssays ? [experience, essays] : [experience];
 
   return (
     <header className="sticky top-0 z-40 border-line border-b bg-bg/80 backdrop-blur-md">

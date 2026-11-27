@@ -24,12 +24,12 @@ test.describe("home", () => {
     await page.getByRole("link", { name: "About me" }).click();
     await expect(page).toHaveURL("/about/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("About me");
-    await expect(page.getByText("I'm Nilay Gautam.")).toBeVisible();
+    await expect(page.getByText(/I'm a senior studying computer science/)).toBeVisible();
   });
 
   test("placeholder project leads to the work in progress page", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /First project/ }).click();
+    await page.getByRole("link", { name: /Research script builder/ }).click();
     await expect(page).toHaveURL("/wip/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Still being built.");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
@@ -68,10 +68,11 @@ test.describe("navigation", () => {
     await expect(banner.getByRole("link").first()).toHaveText("Home");
   });
 
-  test("top nav reaches experience and essays and marks the current page", async ({ page }) => {
+  test("top nav reaches experience and marks the current page", async ({ page }) => {
     await page.goto("/");
     const nav = page.getByRole("navigation", { name: "Main" });
-    await expect(nav.getByRole("link")).toHaveText(["Experience", "Essays"]);
+    // Essays joins the nav once a real essay is published; today only the sample exists.
+    await expect(nav.getByRole("link")).toHaveText(["Experience"]);
 
     await nav.getByRole("link", { name: "Experience" }).click();
     await expect(page).toHaveURL("/experience/");
@@ -79,10 +80,6 @@ test.describe("navigation", () => {
       "aria-current",
       "page",
     );
-
-    await nav.getByRole("link", { name: "Essays" }).click();
-    await expect(page).toHaveURL("/essays/");
-    await expect(nav.getByRole("link", { name: "Essays" })).toHaveAttribute("aria-current", "page");
   });
 
   test("footer shows the contact email and links to GitHub and LinkedIn", async ({ page }) => {
@@ -120,6 +117,8 @@ test("sample essay is listed, readable, and kept out of the sitemap", async ({ p
 
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).not.toContain("sample-essay");
+  // With no real essays yet, the essays index stays out of the sitemap too.
+  expect(sitemap).not.toContain("/essays/");
   expect(sitemap).not.toContain("/wip");
 });
 
@@ -146,7 +145,7 @@ for (const path of pages) {
 
 const sharePreviews = [
   { path: "/", title: "Nilay Gautam", type: "website", image: "/og.png" },
-  { path: "/about/", title: "About | Nilay Gautam", type: "website", image: "/og.png" },
+  { path: "/about/", title: "About me | Nilay Gautam", type: "website", image: "/og.png" },
   { path: "/experience/", title: "Experience | Nilay Gautam", type: "website", image: "/og.png" },
   { path: "/essays/", title: "Essays | Nilay Gautam", type: "website", image: "/og.png" },
   {

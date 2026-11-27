@@ -19,7 +19,7 @@ export default function WorkInProgressPage() {
           Still being built.
         </h1>
         <p className="mt-6 max-w-reading text-lead text-muted">
-          This project is not live yet. When it ships, it will run here on its own subdomain.
+          This project isn't live yet. When it ships, it will run live at its own address.
         </p>
         <div className="mt-10">
           <ButtonLink href="/" variant="secondary">

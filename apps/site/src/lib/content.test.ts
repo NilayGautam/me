@@ -5,6 +5,7 @@ import {
   getEssays,
   getExperience,
   getNow,
+  hasPublishedEssays,
   parseFrontmatter,
 } from "./content";
 import { formatDate, formatMonth, formatPeriod } from "./format";
@@ -53,6 +54,7 @@ describe("format", () => {
     );
     expect(formatPeriod({ start: "2026-01" })).toBe("Jan 2026 - Present");
     expect(formatPeriod({ start: "2025-10", end: "2026-05" })).toBe("Oct 2025 - May 2026");
+    expect(formatPeriod({ start: "2027-01", end: "2027-08" })).toBe("Jan - Aug 2027");
   });
 });
 
@@ -65,5 +67,7 @@ describe("content folder", () => {
   it("has valid experience and essays", async () => {
     expect((await getExperience()).length).toBeGreaterThan(0);
     expect((await getEssays()).length).toBeGreaterThan(0);
+    // The only essay today is the sample, so the Essays tab is hidden.
+    expect(await hasPublishedEssays()).toBe(false);
   });
 });

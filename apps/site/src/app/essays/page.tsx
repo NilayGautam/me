@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   path: "/essays/",
   title: "Essays",
-  description: "Essays and notes by Nilay Gautam.",
+  description: "What I'm learning and building.",
 });
 
 export default async function EssaysPage() {
@@ -18,7 +18,7 @@ export default async function EssaysPage() {
   return (
     <>
       <PageHeader title="Essays">
-        <p>Notes on what I am learning and building.</p>
+        <p>Notes on what I'm learning and building.</p>
       </PageHeader>
       <Section className="pt-0 sm:pt-0">
         <ul>

@@ -107,6 +107,11 @@ export async function getEssays(options: { includeSamples?: boolean } = {}): Pro
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+/** True once at least one real essay is published. Until then the Essays tab stays out of the nav. */
+export async function hasPublishedEssays() {
+  return (await getEssays({ includeSamples: false })).length > 0;
+}
+
 export async function getEssay(slug: string) {
   const essays = await getEssays();
   return essays.find((essay) => essay.slug === slug);

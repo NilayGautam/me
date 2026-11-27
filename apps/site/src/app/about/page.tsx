@@ -6,8 +6,8 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   path: "/about/",
-  title: "About",
-  description: "A little about me and what I am working toward.",
+  title: "About me",
+  description: "A little about me and what I'm working toward.",
 });
 
 export default async function AboutPage() {
