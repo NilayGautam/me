@@ -59,7 +59,12 @@ await mkdir(outDir, { recursive: true });
 
 for (const { source, output } of fonts) {
   const original = await readFile(path.join(sourceDir, source));
-  const subset = await subsetFont(original, text, { targetFormat: "woff2", keepFeatures });
+  const subset = await subsetFont(original, text, {
+    targetFormat: "woff2",
+    keepFeatures,
+    // Without glyph names, Chromium on macOS anti-aliases the same outlines differently at 1x device scale.
+    glyphNames: true,
+  });
   await writeFile(path.join(outDir, output), subset);
   console.log(`${output}: ${original.length} -> ${subset.length} bytes`);
 }
