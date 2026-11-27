@@ -121,6 +121,13 @@ test("experience groups roles by company, newest first", async ({ page }) => {
     .filter({ has: page.getByAltText("Iowa State University") });
   await expect(iowaState.getByText("Oct 2025 - May 2026")).toBeVisible();
   await expect(iowaState.getByText("Jan 2026 - Present")).toBeVisible();
+  await expect(iowaState.getByText("1 yr", { exact: false })).toBeVisible();
+
+  // An upcoming company shows its dates and tag, but no time there yet.
+  const subZero = page.getByRole("article").filter({ has: page.getByAltText(/Sub-Zero Group/) });
+  await expect(subZero.getByText("Jan 2027 - Aug 2027")).toBeVisible();
+  await expect(subZero.getByText("Upcoming")).toBeVisible();
+  await expect(subZero.getByText(/\b\d+ (mos?|yrs?)\b/)).toHaveCount(0);
 });
 
 test("sample essay is listed, readable, and kept out of the sitemap", async ({ page, request }) => {

@@ -51,7 +51,9 @@ export default async function ExperiencePage() {
         <ol>
           {groups.map((group) => {
             const status = statusLabel[group.status];
-            const duration = formatDuration(group.start, group.end, today);
+            // Time there counts only once it has started: an upcoming company shows just its tag.
+            const duration =
+              group.status === "upcoming" ? null : formatDuration(group.start, group.end, today);
             return (
               <li key={group.org} className="border-line border-b">
                 <article className="grid gap-6 py-10 lg:grid-cols-12 lg:gap-10">
