@@ -1,15 +1,13 @@
 # Roadmap
 
 v1 is Phases 0 to 3: the main site, live on nilaygautam.com, with placeholders where projects and essays will go.
-No Azure credit is spent in v1, because Static Web Apps is free.
+No Azure credit is spent in v1, because the site is hosted on Cloudflare's free plan.
 
 ## Phase 0: Foundations
 
-- [ ] Activate Azure for Students with my school email.
+- [x] Activate Azure for Students with my school email.
 - [x] Set up the monorepo with pnpm workspaces, Turborepo, Biome, and strict TypeScript.
 - [x] Add a CI workflow for lint, type checks, tests, and build.
-- [x] Write Terraform for the resource group, budget alerts, Terraform state storage, and the Static Web App.
-- [ ] Set up GitHub Actions OIDC access to Azure.
 
 ## Phase 1: Design system
 
@@ -35,12 +33,13 @@ No Azure credit is spent in v1, because Static Web Apps is free.
 
 ## Phase 3: Launch
 
-- [ ] Point `nilaygautam.com` and `www` at Static Web Apps through Cloudflare DNS.
+- [x] Deploy the static export to Cloudflare Workers with `nilaygautam.com` and `www` as custom domains.
 - [ ] Verify SSL, the redirects, and Lighthouse scores in production.
 
 ## Phase 4: Project platform (after v1)
 
-- [ ] Write Terraform for the Container Apps environment, with scale to zero by default.
+- [ ] Write Terraform for state storage, budget alerts, and the Container Apps environment in Sweden Central, with scale to zero by default.
+- [ ] Set up GitHub Actions OIDC access to Azure with a user-assigned managed identity.
 - [ ] Add a reusable GitHub Actions workflow that builds a project image, pushes it to ghcr.io, and deploys it.
 - [ ] Ship a small hello-world project on a subdomain to prove the whole path end to end.
 - [ ] Add a template for new projects: Dockerfile, health check, README, and project metadata for the site.

@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/next-env.d.ts", "!infra/**/.terraform", "!**/*.md", "!**/*.mdx"]
+    "includes": ["**", "!**/next-env.d.ts", "!**/*.md", "!**/*.mdx"]
   },
   "formatter": {
     "enabled": true,

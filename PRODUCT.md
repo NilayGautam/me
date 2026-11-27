@@ -43,7 +43,7 @@ The current example is a research tool meant to replace Nilay's own role by turn
 - Contact is a mailto button in the hero plus email, GitHub, and LinkedIn in the footer. No contact form.
 - Experience is a live resume written as paragraphs. No PDF and no resume page.
 - Projects run on Azure Container Apps that scale to zero, so a cold start of a few seconds is accepted. Nothing runs 24/7.
-- The main site is a static export on Azure Static Web Apps. DNS and email are on Cloudflare.
+- The main site is a static export on Cloudflare Workers. DNS and email are on Cloudflare too.
 - Stack and engineering rules live in `spec/Tech.md`. Copy lives in `content/` and `apps/site/src/site.ts`.
 - No CMS, no comments, no cookie-banner analytics, and no newsletter in v1.
 - Undecided: the first real project, the first real essay, and the personal line in About.

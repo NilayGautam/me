@@ -7,16 +7,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 concurrency:
   group: deploy-site
   cancel-in-progress: false
-
-env:
-  STATIC_WEB_APP_NAME: swa-nilaygautam
-  STATIC_WEB_APP_RESOURCE_GROUP: rg-nilaygautam-site
 
 jobs:
   ci:
@@ -42,27 +37,9 @@ jobs:
 
       - run: pnpm turbo run build --filter=@nilaygautam/site
 
-      - uses: azure/login@v3
-        with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-
-      # Short-lived: the token is read at deploy time instead of being stored as a repository secret.
-      - name: Fetch deployment token
-        id: swa
-        run: |
-          token=$(az staticwebapp secrets list \
-            --name "$STATIC_WEB_APP_NAME" \
-            --resource-group "$STATIC_WEB_APP_RESOURCE_GROUP" \
-            --query "properties.apiKey" --output tsv)
-          echo "::add-mask::$token"
-          echo "token=$token" >> "$GITHUB_OUTPUT"
-
-      - uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ steps.swa.outputs.token }}
-          action: upload
-          app_location: apps/site/out
-          skip_app_build: true
-          skip_api_build: true
+      # Keep the wrangler version in sync with the dry run in ci.yml.
+      - name: Deploy to Cloudflare Workers
+        working-directory: apps/site
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: pnpm dlx wrangler@4.161.0 deploy
