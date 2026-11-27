@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHeader, Section, Tag } from "@/components/ui";
 import { getExperience } from "@/lib/content";
 import { formatPeriod } from "@/lib/format";
@@ -12,6 +13,32 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const statusLabel = { upcoming: "Upcoming", current: "Current", past: null } as const;
+
+/**
+ * Logos shown in place of the typed company name. Heights are set so the lettering inside each
+ * logo reads at about the size of the text beside it.
+ * Iowa State: the official one-line wordmark from the university style guide, recolored white.
+ * Sub-Zero Group: the Wolf, Sub-Zero, and Cove marks cut from an HR announcement image.
+ */
+const orgLogos: Record<
+  string,
+  { src: string; alt: string; width: number; height: number; className: string }
+> = {
+  "Iowa State University": {
+    src: "/logos/iowa-state-university.svg",
+    alt: "Iowa State University",
+    width: 459,
+    height: 34,
+    className: "h-4",
+  },
+  "Sub-Zero Group": {
+    src: "/logos/sub-zero-group.webp",
+    alt: "Sub-Zero Group: Wolf, Sub-Zero, and Cove",
+    width: 1063,
+    height: 96,
+    className: "h-7",
+  },
+};
 
 export default async function ExperiencePage() {
   const experience = await getExperience();
@@ -32,13 +59,14 @@ export default async function ExperiencePage() {
                   </div>
                   <div className="lg:col-span-8">
                     <h2 className="font-medium text-2xl text-fg tracking-tight">{entry.role}</h2>
-                    <p className="mt-1 text-muted">
-                      {entry.org}
-                      <span aria-hidden="true" className="mx-2 text-subtle">
+                    <p className="mt-2 flex flex-wrap items-center gap-y-2 text-muted">
+                      <OrgName org={entry.org} />
+                      {/* On phones the location gets its own line, so no slash is left at a line end. */}
+                      <span aria-hidden="true" className="mx-2 hidden text-subtle sm:inline">
                         /
                       </span>
                       <span className="sr-only">, </span>
-                      {entry.location}
+                      <span className="w-full sm:w-auto">{entry.location}</span>
                     </p>
                     {entry.body ? (
                       <div className="prose mt-6">
@@ -53,5 +81,19 @@ export default async function ExperiencePage() {
         </ol>
       </Section>
     </>
+  );
+}
+
+function OrgName({ org }: { org: string }) {
+  const logo = orgLogos[org];
+  if (!logo) return <>{org}</>;
+  return (
+    <Image
+      src={logo.src}
+      alt={logo.alt}
+      width={logo.width}
+      height={logo.height}
+      className={`${logo.className} w-auto`}
+    />
   );
 }
