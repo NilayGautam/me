@@ -13,3 +13,11 @@ export const mono = localFont({
   adjustFontFallback: false,
   fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
+
+/** Display face for big headings: a free, tight grotesk close to the DevRev headline voice. */
+export const display = localFont({
+  src: "../../node_modules/@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2",
+  variable: "--font-inter-tight",
+  weight: "700",
+  display: "swap",
+});

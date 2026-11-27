@@ -55,8 +55,10 @@ It is reached from the button in the hero.
 
 ### Contact
 
-- The **Contact** button in the hero opens an email to me.
-- The footer on every page lists email, GitHub, and LinkedIn.
+- The footer on every page shows `Contact: hello@nilaygautam.com`, and clicking the address copies it.
+- The **Contact** button in the hero jumps to that line.
+- The footer also links GitHub and LinkedIn.
+- No mailto links, and no copyright line, since copyright applies without a notice.
 - No contact form.
 
 ### Projects
@@ -80,12 +82,15 @@ Heavily inspired by devrev.ai and amargautam.com.
 - **Dark only.**
   One carefully tuned dark theme, near-black background, off-white text, a single restrained accent.
 - **Bold typography.**
-  Large, confident headlines in a geometric grotesk.
+  Large, confident headlines in Inter Tight, a free stand-in for DevRev's LL Unica77.
   Typography does the work that imagery does on other sites.
 - **Grid and technical feel.**
-  Thin rules, visible structure, mono labels for metadata like dates, tags, and section numbers.
+  Thin rules and edge rails carry the structure.
+  Mono type is only for data such as dates and status tags.
+  No decorative grid backgrounds, section numbers, or labels above headings.
 - **Subtle motion.**
-  Small reveals and hover states that feel precise, never decorative.
+  Precise hover and focus states.
+  No entrance animation repeated on every section.
   All motion respects `prefers-reduced-motion`.
 - **Text-first layout.**
   A single readable column for content, with the grid used for structure, not clutter.

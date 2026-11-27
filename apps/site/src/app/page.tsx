@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@/components/icons";
 import { Portrait } from "@/components/portrait";
-import { Reveal } from "@/components/reveal";
-import { ButtonAnchor, ButtonLink, Section, SectionLabel, Tag } from "@/components/ui";
+import { ButtonAnchor, ButtonLink, Section, SectionHeading, Tag } from "@/components/ui";
 import { getNow } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
@@ -28,14 +27,10 @@ export default async function HomePage() {
 
   return (
     <>
-      <section
-        aria-labelledby="hero-title"
-        className="relative overflow-hidden border-line border-b"
-      >
-        <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0" />
-        <div className="relative grid gap-12 px-6 pt-10 pb-16 sm:px-10 sm:pt-16 lg:min-h-[calc(100svh-4rem-7rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-20 lg:pb-20">
+      <section aria-labelledby="hero-title" className="border-line border-b">
+        <div className="grid gap-12 px-6 pt-10 pb-16 sm:px-10 sm:pt-16 lg:min-h-[calc(100svh-4rem-7rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-20 lg:pb-20">
           <div className="order-2 lg:order-1 lg:col-span-7">
-            <h1 id="hero-title" className="font-semibold text-display text-fg">
+            <h1 id="hero-title" className="font-bold font-display text-display text-fg">
               {firstName}
               <br />
               {rest.join(" ")}
@@ -45,7 +40,7 @@ export default async function HomePage() {
               <ButtonLink href="/about" arrow>
                 About me
               </ButtonLink>
-              <ButtonAnchor href={`mailto:${site.email}`} variant="secondary">
+              <ButtonAnchor href="#contact" variant="secondary">
                 Contact
               </ButtonAnchor>
             </div>
@@ -59,53 +54,43 @@ export default async function HomePage() {
       </section>
 
       <Section labelledBy="projects-title" className="border-line border-b">
-        <Reveal>
-          <SectionLabel index="01">Projects</SectionLabel>
-          <h2 id="projects-title" className="sr-only">
-            Projects
-          </h2>
-        </Reveal>
+        <SectionHeading id="projects-title">Projects</SectionHeading>
         <ul className="mt-10 border-line border-t">
-          {projects.map((project, i) => (
+          {projects.map((project) => (
             <li key={project.name} className="border-line border-b">
-              <Reveal>
-                <Link
-                  href={project.href}
-                  className="group grid gap-3 py-8 transition-colors duration-fast sm:grid-cols-12 sm:items-center sm:gap-6"
-                >
-                  <span className="font-mono text-label text-subtle sm:col-span-1">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-medium text-2xl text-fg tracking-tight sm:col-span-4">
-                    {project.name}
-                  </span>
-                  <span className="text-muted sm:col-span-5">{project.description}</span>
-                  <span className="flex items-center justify-between gap-4 sm:col-span-2 sm:justify-end">
-                    <Tag accent>{project.status}</Tag>
-                    <ArrowRight className="size-5 text-muted transition-all duration-base ease-out-expo group-hover:translate-x-1 group-hover:text-fg" />
-                  </span>
-                </Link>
-              </Reveal>
+              <Link
+                href={project.href}
+                className="group grid gap-3 py-8 sm:grid-cols-12 sm:items-center sm:gap-6"
+              >
+                <span className="font-medium text-2xl text-fg tracking-tight transition-colors duration-fast sm:col-span-4">
+                  {project.name}
+                </span>
+                <span className="text-muted sm:col-span-6">{project.description}</span>
+                <span className="flex items-center justify-between gap-4 sm:col-span-2 sm:justify-end">
+                  <Tag accent>{project.status}</Tag>
+                  <ArrowRight className="size-5 text-muted transition-[translate,color] duration-base ease-out-expo group-hover:translate-x-1 group-hover:text-fg" />
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
       </Section>
 
       <Section labelledBy="now-title">
-        <Reveal className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
-            <SectionLabel index="02">Now</SectionLabel>
-            <h2 id="now-title" className="sr-only">
-              Now
-            </h2>
-            <p className="mt-3 font-mono text-label text-subtle uppercase">
-              Updated <time dateTime={now.data.updated}>{formatDate(now.data.updated)}</time>
+            <SectionHeading id="now-title">Now</SectionHeading>
+            <p className="mt-3 text-sm text-subtle">
+              Updated{" "}
+              <time dateTime={now.data.updated} className="tabular-nums">
+                {formatDate(now.data.updated)}
+              </time>
             </p>
           </div>
           <div className="max-w-reading text-lead text-fg lg:col-span-8 [&_p+p]:mt-4 [&_p+p]:text-muted [&_p:first-child]:font-medium">
             <Markdown source={now.body} />
           </div>
-        </Reveal>
+        </div>
       </Section>
     </>
   );

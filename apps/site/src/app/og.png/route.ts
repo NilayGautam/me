@@ -5,5 +5,5 @@ export const dynamic = "force-static";
 
 /** Served as a real `.png` file so every static host sends the right content type. */
 export function GET() {
-  return renderOgImage({ title: site.name, eyebrow: site.tagline });
+  return renderOgImage({ title: site.name, subtitle: site.tagline });
 }
