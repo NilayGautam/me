@@ -61,9 +61,9 @@ export default async function ExperiencePage() {
                     <h2 className="font-medium text-2xl text-fg tracking-tight">{entry.role}</h2>
                     <p className="mt-2 flex flex-wrap items-center gap-y-2 text-muted">
                       <OrgName org={entry.org} />
-                      {/* On phones the location gets its own line, so no slash is left at a line end. */}
-                      <span aria-hidden="true" className="mx-2 hidden text-subtle sm:inline">
-                        /
+                      {/* On phones the location gets its own line, so no divider is left at a line end. */}
+                      <span aria-hidden="true" className="mx-2.5 hidden text-subtle sm:inline">
+                        |
                       </span>
                       <span className="sr-only">, </span>
                       <span className="w-full sm:w-auto">{entry.location}</span>
