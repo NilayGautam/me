@@ -96,8 +96,8 @@
   }
   .prose li::marker {
     color: var(--color-subtle);
-    font-family: var(--font-mono);
     font-size: 0.8em;
+    font-variant-numeric: tabular-nums;
   }
   .prose blockquote {
     border-left: 2px solid var(--color-accent);

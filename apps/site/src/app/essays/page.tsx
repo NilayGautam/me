@@ -18,16 +18,7 @@ export default async function EssaysPage() {
   return (
     <>
       <PageHeader title="Essays">
-        <p>
-          Notes on what I am learning and building. Also available as an{" "}
-          <a
-            href="/rss.xml"
-            className="text-fg underline decoration-line-strong underline-offset-4 transition-colors duration-fast hover:decoration-accent"
-          >
-            RSS feed
-          </a>
-          .
-        </p>
+        <p>Notes on what I am learning and building.</p>
       </PageHeader>
       <Section className="pt-0 sm:pt-0">
         <ul>
@@ -38,7 +29,7 @@ export default async function EssaysPage() {
                 className="group grid gap-3 py-8 lg:grid-cols-12 lg:gap-10"
               >
                 <div className="flex items-center gap-3 lg:col-span-4 lg:self-start lg:pt-1.5">
-                  <time dateTime={essay.date} className="font-mono text-muted text-sm tabular-nums">
+                  <time dateTime={essay.date} className="text-muted text-sm tabular-nums">
                     {formatDate(essay.date)}
                   </time>
                   {essay.sample ? <Tag>Sample</Tag> : null}

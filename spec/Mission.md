@@ -49,7 +49,7 @@ It is reached from the button in the hero.
 | Home             | `/`              | Hero, projects, and Now.                                                                  |
 | About            | `/about`         | A paragraph about me.                                                                     |
 | Experience       | `/experience`    | A list of my experiences that works as a live resume. No PDF and no separate resume page. |
-| Essays           | `/essays`        | A dated list of essays, with an RSS feed at `/rss.xml`.                                   |
+| Essays           | `/essays`        | A dated list of essays.                                                                   |
 | Essay            | `/essays/<slug>` | A single essay.                                                                           |
 | Work in progress | `/wip`           | Where placeholder project links lead until real projects ship.                            |
 
@@ -86,7 +86,7 @@ Heavily inspired by devrev.ai and amargautam.com.
   Typography does the work that imagery does on other sites.
 - **Grid and technical feel.**
   Thin rules and edge rails carry the structure.
-  Mono type is only for data such as dates and status tags.
+  Dates and status tags are set in Geist Sans with tabular figures; monospace is only for code.
   No decorative grid backgrounds, section numbers, or labels above headings.
 - **Subtle motion.**
   Precise hover and focus states.
@@ -115,8 +115,7 @@ Heavily inspired by devrev.ai and amargautam.com.
 
 - No CMS, no admin panel, no comments.
 - No analytics that need a cookie banner.
-- No email newsletter in v1.
-  RSS is enough.
+- No email newsletter and no RSS feed.
 - No light mode.
 
 ## Success looks like

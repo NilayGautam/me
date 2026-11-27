@@ -24,7 +24,8 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-inter-tight), var(--font-geist-sans), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  /* Code only, in the system monospace: no web font ships for it. */
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   --text-display: clamp(3.25rem, 1.8rem + 5.4vw, 6rem);
   --text-display--line-height: 0.92;

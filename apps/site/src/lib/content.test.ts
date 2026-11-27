@@ -8,7 +8,6 @@ import {
   parseFrontmatter,
 } from "./content";
 import { formatDate, formatMonth, formatPeriod } from "./format";
-import { buildRss } from "./rss";
 
 describe("parseFrontmatter", () => {
   it("splits YAML frontmatter from the body", () => {
@@ -66,23 +65,5 @@ describe("content folder", () => {
   it("has valid experience and essays", async () => {
     expect((await getExperience()).length).toBeGreaterThan(0);
     expect((await getEssays()).length).toBeGreaterThan(0);
-  });
-});
-
-describe("buildRss", () => {
-  it("escapes XML and links each essay", () => {
-    const xml = buildRss([
-      {
-        slug: "a-b",
-        title: "Tom & Jerry <3",
-        date: "2026-11-26",
-        summary: "s",
-        sample: false,
-        body: "",
-      },
-    ]);
-    expect(xml).toContain("<title>Tom &amp; Jerry &lt;3</title>");
-    expect(xml).toContain("<link>https://nilaygautam.com/essays/a-b/</link>");
-    expect(xml).toContain("Thu, 26 Nov 2026 12:00:00 GMT");
   });
 });

@@ -25,8 +25,8 @@ No Azure credit is spent in v1, because the site is hosted on Cloudflare's free 
 - [x] Top nav with Experience and Essays.
 - [x] About page with a paragraph about me.
 - [x] Experience page as a live resume.
-- [x] Essays index and MDX essay pages with an RSS feed.
-- [x] One placeholder essay that shows the essay page format, kept out of RSS and the sitemap.
+- [x] Essays index and MDX essay pages.
+- [x] One placeholder essay that shows the essay page format, kept out of the sitemap.
 - [x] Footer with email, GitHub, and LinkedIn.
 - [x] Metadata, Open Graph images, sitemap, and a 404 page.
 - [x] Playwright E2E tests for every page, plus a Lighthouse check in CI.

@@ -111,16 +111,13 @@ test("experience lists every role, newest first", async ({ page }) => {
   ]);
 });
 
-test("sample essay is listed, readable, and kept out of feeds", async ({ page, request }) => {
+test("sample essay is listed, readable, and kept out of the sitemap", async ({ page, request }) => {
   await page.goto("/essays/");
   await page.getByRole("link", { name: /A sample essay/ }).click();
   await expect(page).toHaveURL("/essays/sample-essay/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("A sample essay");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
 
-  const rss = await (await request.get("/rss.xml")).text();
-  expect(rss).toContain("<channel>");
-  expect(rss).not.toContain("sample-essay");
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).not.toContain("sample-essay");
   expect(sitemap).not.toContain("/wip");
@@ -173,6 +170,5 @@ for (const preview of sharePreviews) {
     await expect(og("locale")).toHaveAttribute("content", "en_US");
     await expect(og("image")).toHaveAttribute("content", `https://nilaygautam.com${preview.image}`);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", url);
-    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveCount(1);
   });
 }

@@ -1,5 +1,5 @@
-// Cuts the Geist fonts down to the Latin characters and OpenType features the site uses.
-// The full files cover Cyrillic and many alternates, and their weight delays the hero image on slow connections.
+// Cuts Geist Sans down to the Latin characters and OpenType features the site uses.
+// The full file covers Cyrillic and many alternates, and its weight delays the hero image on slow connections.
 // Run with `pnpm --filter @nilaygautam/site fonts` after upgrading the `geist` package or changing the lists below.
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -44,10 +44,7 @@ const keepFeatures = [
   "ss01",
 ];
 
-const fonts = [
-  { source: "geist-sans/Geist-Variable.woff2", output: "geist-sans-latin.woff2" },
-  { source: "geist-mono/GeistMono-Regular.woff2", output: "geist-mono-latin-400.woff2" },
-];
+const fonts = [{ source: "geist-sans/Geist-Variable.woff2", output: "geist-sans-latin.woff2" }];
 
 const text = ranges
   .flatMap(([first, last]) =>

@@ -27,9 +27,7 @@ export default async function ExperiencePage() {
               <li key={entry.slug} className="border-line border-b">
                 <article className="grid gap-4 py-10 lg:grid-cols-12 lg:gap-10">
                   <div className="flex flex-wrap items-center gap-3 lg:col-span-4 lg:flex-col lg:items-start lg:pt-1.5">
-                    <p className="font-mono text-muted text-sm tabular-nums">
-                      {formatPeriod(entry)}
-                    </p>
+                    <p className="text-muted text-sm tabular-nums">{formatPeriod(entry)}</p>
                     {status ? <Tag accent={entry.status === "current"}>{status}</Tag> : null}
                   </div>
                   <div className="lg:col-span-8">

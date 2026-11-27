@@ -3,10 +3,6 @@ import { site } from "@/site";
 
 export const openGraphBase = { siteName: site.name, locale: "en_US" } as const;
 
-export const rssAlternate = {
-  "application/rss+xml": [{ url: "/rss.xml", title: `${site.name} essays` }],
-};
-
 const siteImage = {
   url: "/og.png",
   width: 1200,
@@ -27,7 +23,7 @@ export function pageMetadata({
   return {
     ...(title ? { title } : {}),
     description,
-    alternates: { canonical: path, types: rssAlternate },
+    alternates: { canonical: path },
     openGraph: {
       ...openGraphBase,
       type: "website",

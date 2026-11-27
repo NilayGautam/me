@@ -16,7 +16,7 @@
 | Styling                | Tailwind CSS v4                                        |
 | Motion                 | CSS transitions on hover and focus only, no JavaScript |
 | Writing                | MDX files in the repo                                  |
-| Fonts                  | Inter Tight 700 for big headings, Geist Sans for text, Geist Mono for data, all self-hosted via `next/font` |
+| Fonts                  | Inter Tight 700 for big headings, Geist Sans for text and data, both self-hosted via `next/font` |
 | Package manager        | pnpm                                                   |
 | Monorepo               | pnpm workspaces and Turborepo                          |
 | Lint and format        | Biome                                                  |
@@ -107,6 +107,6 @@ Projects may use any stack inside their folder, as long as they ship as a contai
   Content is never hidden behind JavaScript, so animations must not delay the first paint.
 - **Lighthouse:** 100 in accessibility, best practices, and SEO on every indexed page.
 - **Accessibility:** WCAG 2.2 AA, full keyboard navigation, visible focus states, `prefers-reduced-motion` respected.
-- **SEO and sharing:** per-page metadata, Open Graph images, a sitemap, and RSS.
+- **SEO and sharing:** per-page metadata, Open Graph images, and a sitemap.
 - **Design system:** colors, spacing, and type scale come only from tokens in `packages/ui`.
 - **Zero tolerance:** no lint warnings, no failing or flaky tests on `main`.

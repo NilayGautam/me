@@ -12,15 +12,18 @@ export function SectionHeading({ id, children }: { id: string; children: ReactNo
   );
 }
 
-/** Small status tag in mono, since status is data. `accent` adds a live dot. */
+/**
+ * Status set as a line of data beside the dates, not as a chip: small tracked caps with no container.
+ * `accent` marks a live status with a small square in the accent color.
+ */
 export function Tag({ children, accent = false }: { children: ReactNode; accent?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-tag uppercase ${
-        accent ? "border-accent/30 text-accent" : "border-line-strong text-muted"
+      className={`inline-flex items-center gap-2 font-medium text-tag uppercase ${
+        accent ? "text-accent" : "text-subtle"
       }`}
     >
-      {accent ? <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" /> : null}
+      {accent ? <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" /> : null}
       {children}
     </span>
   );

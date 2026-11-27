@@ -38,7 +38,7 @@ The current example is a research tool meant to replace Nilay's own role by turn
 
 ## Capabilities and Constraints
 
-- Pages: home (hero, projects, Now), About (reached from a hero button, not the nav), Experience, Essays with RSS, and a work-in-progress page.
+- Pages: home (hero, projects, Now), About (reached from a hero button, not the nav), Experience, Essays, and a work-in-progress page.
 - Top nav holds only Experience and Essays.
 - Contact: the footer shows "Contact: hello@nilaygautam.com", and clicking the address copies it. The hero Contact button jumps to that line. No mailto links and no contact form.
 - No copyright line: copyright applies automatically without a notice.

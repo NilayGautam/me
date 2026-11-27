@@ -54,7 +54,7 @@ export default async function EssayPage({ params }: PageProps<"/essays/[slug]">)
           {essay.title}
         </h1>
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <time dateTime={essay.date} className="font-mono text-muted text-sm tabular-nums">
+          <time dateTime={essay.date} className="text-muted text-sm tabular-nums">
             {formatDate(essay.date)}
           </time>
           {essay.sample ? <Tag>Sample</Tag> : null}
