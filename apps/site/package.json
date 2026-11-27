@@ -11,6 +11,7 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "images": "node scripts/optimize-portrait.mjs",
+    "fonts": "node scripts/subset-fonts.mjs",
     "lighthouse": "lhci autorun"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "@types/react-dom": "^19.3.0",
     "serve": "^14.2.8",
     "sharp": "^0.35.5",
+    "subset-font": "^2.9.0",
     "tailwindcss": "^4.3.5",
     "vitest": "^5.1.2"
   }
