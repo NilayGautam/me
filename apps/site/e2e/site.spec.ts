@@ -102,13 +102,25 @@ test.describe("navigation", () => {
   });
 });
 
-test("experience lists every role, newest first", async ({ page }) => {
+test("experience groups roles by company, newest first", async ({ page }) => {
   await page.goto("/experience/");
-  await expect(page.getByRole("heading", { level: 2 })).toHaveText([
+  // Each company is a heading named by its logo's alt text, with its roles as subheadings.
+  const companies = page.getByRole("heading", { level: 2 });
+  await expect(companies).toHaveCount(2);
+  await expect(companies.nth(0).getByRole("img")).toHaveAccessibleName(
+    "Sub-Zero Group: Wolf, Sub-Zero, and Cove",
+  );
+  await expect(companies.nth(1).getByRole("img")).toHaveAccessibleName("Iowa State University");
+  await expect(page.getByRole("heading", { level: 3 })).toHaveText([
     "Data Governance Co-op",
     "Research Assistant",
     "Teaching Assistant",
   ]);
+  const iowaState = page
+    .getByRole("article")
+    .filter({ has: page.getByAltText("Iowa State University") });
+  await expect(iowaState.getByText("Oct 2025 - May 2026")).toBeVisible();
+  await expect(iowaState.getByText("Jan 2026 - Present")).toBeVisible();
 });
 
 test("sample essay is listed, readable, and kept out of the sitemap", async ({ page, request }) => {

@@ -25,6 +25,28 @@ export function formatMonth(iso: string) {
   return `${monthNames[(month ?? 1) - 1]} ${year}`;
 }
 
+/**
+ * Length of a stint, counted the way LinkedIn does: both the first and last month count,
+ * so Oct 2025 to Nov 2026 is "1 yr 2 mos". An open-ended stint runs to the month of `today`.
+ * Returns null when the stint has not started and has no end to measure to.
+ */
+export function formatDuration(start: string, end: string | undefined, today: Date = new Date()) {
+  const toIndex = (iso: string) => {
+    const [year, month] = iso.split("-").map(Number);
+    return (year ?? 0) * 12 + (month ?? 1) - 1;
+  };
+  const last = end ? toIndex(end) : today.getUTCFullYear() * 12 + today.getUTCMonth();
+  const months = last - toIndex(start) + 1;
+  if (months < 1) return null;
+  const years = Math.floor(months / 12);
+  const rest = months % 12;
+  const parts = [
+    years ? `${years} ${years === 1 ? "yr" : "yrs"}` : "",
+    rest ? `${rest} ${rest === 1 ? "mo" : "mos"}` : "",
+  ];
+  return parts.filter(Boolean).join(" ");
+}
+
 export function formatPeriod(entry: {
   start: string;
   end?: string | undefined;

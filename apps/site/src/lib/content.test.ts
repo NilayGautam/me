@@ -1,13 +1,15 @@
 import { describe, expect, it } from "vitest";
+import type { Experience } from "./content";
 import {
   experienceStatus,
   getAbout,
   getEssays,
   getExperience,
   getNow,
+  groupExperience,
   parseFrontmatter,
 } from "./content";
-import { formatDate, formatMonth, formatPeriod } from "./format";
+import { formatDate, formatDuration, formatMonth, formatPeriod } from "./format";
 
 describe("parseFrontmatter", () => {
   it("splits YAML frontmatter from the body", () => {
@@ -66,5 +68,65 @@ describe("content folder", () => {
   it("has valid experience and essays", async () => {
     expect((await getExperience()).length).toBeGreaterThan(0);
     expect((await getEssays()).length).toBeGreaterThan(0);
+  });
+});
+
+describe("formatDuration", () => {
+  // LinkedIn counts both the first and the last month of a stint.
+  const today = new Date("2026-11-26T12:00:00Z");
+
+  it("counts both end months", () => {
+    expect(formatDuration("2025-10", "2026-05", today)).toBe("8 mos");
+    expect(formatDuration("2027-01", "2027-08", today)).toBe("8 mos");
+    expect(formatDuration("2026-03", "2026-03", today)).toBe("1 mo");
+  });
+
+  it("runs an open stint to the current month", () => {
+    expect(formatDuration("2025-10", undefined, today)).toBe("1 yr 2 mos");
+    expect(formatDuration("2024-12", undefined, today)).toBe("2 yrs");
+  });
+
+  it("has nothing to measure for an open stint that has not started", () => {
+    expect(formatDuration("2027-01", undefined, today)).toBeNull();
+  });
+});
+
+describe("groupExperience", () => {
+  const role = (org: string, start: string, end?: string, status: Experience["status"] = "past") =>
+    ({
+      org,
+      role: `${org} ${start}`,
+      location: "Ames, IA",
+      start,
+      end,
+      slug: start,
+      body: "",
+      status,
+    }) as Experience;
+
+  it("puts roles at the same company together, keeping newest first", () => {
+    const groups = groupExperience([
+      role("B", "2027-01", "2027-08", "upcoming"),
+      role("A", "2026-01", undefined, "current"),
+      role("A", "2025-10", "2026-05"),
+    ]);
+    expect(groups.map((g) => [g.org, g.roles.map((r) => r.start)])).toEqual([
+      ["B", ["2027-01"]],
+      ["A", ["2026-01", "2025-10"]],
+    ]);
+  });
+
+  it("spans the company from its first start to its last end", () => {
+    const [closed] = groupExperience([
+      role("A", "2024-06", "2025-01"),
+      role("A", "2023-02", "2024-05"),
+    ]);
+    expect([closed?.start, closed?.end, closed?.status]).toEqual(["2023-02", "2025-01", "past"]);
+
+    const [open] = groupExperience([
+      role("A", "2026-01", undefined, "current"),
+      role("A", "2025-10", "2026-05"),
+    ]);
+    expect([open?.start, open?.end, open?.status]).toEqual(["2025-10", undefined, "current"]);
   });
 });
