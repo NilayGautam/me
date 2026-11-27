@@ -23,9 +23,10 @@ const projects = [
 ] as const;
 
 /**
- * The hero is sized from the viewport so the Projects heading always shows above the fold, which tells
- * visitors there is more below. On desktop the fold cuts through the first project row (13.75rem of
- * Projects showing); on smaller screens the portrait shrinks with the viewport so the heading stays in view.
+ * From the lg breakpoint the hero is sized from the viewport so the fold cuts through the first project
+ * row (13.75rem of Projects showing), which tells visitors there is more below. The portrait shrinks with
+ * the viewport height to make room. Phones and tablets keep a fixed portrait: their browsers leave too
+ * little height for the heading to fit above the fold without shrinking the photo to a thumbnail.
  */
 export default async function HomePage() {
   const now = await getNow();
@@ -52,7 +53,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="order-1 lg:order-2 lg:col-span-5 lg:@container">
-            <figure className="relative aspect-4/5 h-[clamp(12.5rem,calc(100svh-38.5rem),18.75rem)] overflow-hidden rounded-lg border border-line bg-surface sm:h-[clamp(15rem,calc(100svh-45.5rem),22.5rem)] lg:ml-auto lg:h-[clamp(20rem,calc(100svh-24.25rem),125cqw)]">
+            <figure className="relative aspect-4/5 h-75 overflow-hidden rounded-lg border border-line bg-surface sm:h-90 lg:ml-auto lg:h-[clamp(20rem,calc(100svh-24.25rem),125cqw)]">
               <Portrait sizes="(min-width: 1152px) 440px, (min-width: 1024px) 38vw, (min-width: 640px) 288px, 240px" />
             </figure>
           </div>
