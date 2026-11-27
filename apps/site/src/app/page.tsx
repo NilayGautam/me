@@ -23,10 +23,11 @@ const projects = [
 ] as const;
 
 /**
- * From the lg breakpoint the hero is sized from the viewport so the fold cuts through the first project
- * row (13.75rem of Projects showing), which tells visitors there is more below. The portrait shrinks with
- * the viewport height to make room. Phones and tablets keep a fixed portrait: their browsers leave too
- * little height for the heading to fit above the fold without shrinking the photo to a thumbnail.
+ * Below lg the portrait runs edge to edge across most of the first screen and fades into the page,
+ * with the name set on the fade, so the first screen reads photo, name, tagline.
+ * From lg the hero is sized from the viewport so the fold cuts through the first project row
+ * (13.75rem of Projects showing), which tells visitors there is more below. The portrait shrinks
+ * with the viewport height to make room.
  */
 export default async function HomePage() {
   const now = await getNow();
@@ -35,8 +36,8 @@ export default async function HomePage() {
   return (
     <>
       <section aria-labelledby="hero-title" className="border-line border-b">
-        <div className="grid gap-12 px-6 pt-10 pb-16 sm:px-10 sm:pt-16 lg:min-h-[calc(100svh-4rem-13.75rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-12 lg:pb-14">
-          <div className="order-2 lg:order-1 lg:col-span-7">
+        <div className="grid pb-16 lg:min-h-[calc(100svh-4rem-13.75rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:px-10 lg:pt-12 lg:pb-14">
+          <div className="relative order-2 -mt-24 px-6 sm:-mt-28 sm:px-10 lg:order-1 lg:col-span-7 lg:mt-0 lg:px-0">
             <h1 id="hero-title" className="font-bold font-display text-display text-fg">
               {firstName}
               <br />
@@ -53,8 +54,8 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="order-1 lg:order-2 lg:col-span-5 lg:@container">
-            <figure className="relative aspect-4/5 h-75 overflow-hidden rounded-lg border border-line bg-surface sm:h-90 lg:ml-auto lg:h-[clamp(20rem,calc(100svh-24.25rem),125cqw)]">
-              <Portrait sizes="(min-width: 1152px) 440px, (min-width: 1024px) 38vw, (min-width: 640px) 288px, 240px" />
+            <figure className="relative h-[clamp(22rem,70svh,44rem)] w-full overflow-hidden bg-surface after:pointer-events-none after:absolute after:inset-x-0 after:top-1/2 after:bottom-0 after:bg-linear-to-b after:from-transparent after:to-bg lg:ml-auto lg:aspect-4/5 lg:h-[clamp(20rem,calc(100svh-24.25rem),125cqw)] lg:w-auto lg:rounded-lg lg:border lg:border-line lg:after:hidden">
+              <Portrait sizes="(min-width: 1152px) 440px, (min-width: 1024px) 38vw, 100vw" />
             </figure>
           </div>
         </div>
