@@ -14,9 +14,9 @@
 | Language               | TypeScript (strict)                                    |
 | Main site framework    | Next.js (App Router, React 19, static export)          |
 | Styling                | Tailwind CSS v4                                        |
-| Motion                 | CSS scroll-driven animations, no JavaScript            |
+| Motion                 | CSS transitions on hover and focus only, no JavaScript |
 | Writing                | MDX files in the repo                                  |
-| Fonts                  | Geist Sans and Geist Mono, self-hosted via `next/font` |
+| Fonts                  | Inter Tight 700 for big headings, Geist Sans for text, Geist Mono for data, all self-hosted via `next/font` |
 | Package manager        | pnpm                                                   |
 | Monorepo               | pnpm workspaces and Turborepo                          |
 | Lint and format        | Biome                                                  |
@@ -61,6 +61,7 @@ Projects may use any stack inside their folder, as long as they ship as a contai
 - `apps/site/wrangler.jsonc` defines the Worker and its custom domains.
 - `nilaygautam.com` is the canonical host.
   `www.nilaygautam.com` redirects to it with a 301 from `apps/site/src/worker.ts`.
+- The same Worker adds the security headers (CSP, HSTS, `nosniff`, referrer and permissions policies) to every response, and a one-year immutable cache to hashed `/_next/static/` files.
 
 ### Projects
 
