@@ -3,11 +3,14 @@ import localFont from "next/font/local";
 
 export const sans = GeistSans;
 
-/** Mono only styles small labels, so it is not preloaded and never competes with the hero image. */
+/**
+ * Mono only styles small data text, so it is not preloaded and never competes with the hero image.
+ * All mono text is weight 400, so the static Regular face ships instead of the larger variable font.
+ */
 export const mono = localFont({
-  src: "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2",
+  src: "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2",
   variable: "--font-geist-mono",
-  weight: "100 900",
+  weight: "400",
   preload: false,
   display: "swap",
   adjustFontFallback: false,
