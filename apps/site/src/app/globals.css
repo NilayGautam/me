@@ -20,6 +20,22 @@
     }
   }
 
+  /* Content swapping in place, like the Contact button opening into the address, comes into focus. */
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      filter: blur(4px);
+    }
+  }
+  .animate-reveal {
+    animation: reveal var(--duration-base) var(--ease-out-expo) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-reveal {
+      animation: none;
+    }
+  }
+
   body {
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
@@ -59,14 +75,14 @@
         linear-gradient(
           to right,
           rgb(0 0 0 / 0) 0%,
-          rgb(0 0 0 / 0.04) 8%,
-          rgb(0 0 0 / 0.14) 16%,
-          rgb(0 0 0 / 0.32) 24%,
-          rgb(0 0 0 / 0.56) 32%,
-          rgb(0 0 0 / 0.8) 40%,
-          #000 50%
+          rgb(0 0 0 / 0.04) 7%,
+          rgb(0 0 0 / 0.14) 13%,
+          rgb(0 0 0 / 0.32) 20%,
+          rgb(0 0 0 / 0.56) 27%,
+          rgb(0 0 0 / 0.8) 34%,
+          #000 42%
         ),
-        linear-gradient(to top, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.35) 8%, #000 24%);
+        linear-gradient(to top, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.35) 6%, #000 16%);
       mask-composite: intersect;
     }
   }

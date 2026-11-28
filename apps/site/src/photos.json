@@ -1,0 +1,16 @@
+{
+  "portrait": {
+    "source": "assets/portrait-source.jpg",
+    "widths": [480, 800, 1200],
+    "width": 1600,
+    "height": 2000,
+    "alt": "Nilay Gautam kneeling on a beach with two beagles"
+  },
+  "night": {
+    "source": "assets/night-source.jpg",
+    "widths": [480, 800],
+    "width": 800,
+    "height": 1000,
+    "alt": "Nilay Gautam at a candlelit table on a beach at night with two beagles, one in a birthday hat"
+  }
+}

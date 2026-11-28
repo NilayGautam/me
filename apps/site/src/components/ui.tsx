@@ -78,19 +78,6 @@ export function ButtonLink({
   );
 }
 
-export function ButtonAnchor({
-  href,
-  children,
-  variant = "primary",
-  arrow = false,
-}: ButtonProps & { href: string }) {
-  return (
-    <a href={href} className={`${buttonBase} ${buttonVariants[variant]}`}>
-      <ButtonContent arrow={arrow}>{children}</ButtonContent>
-    </a>
-  );
-}
-
 /** Title block at the top of every inner page. */
 export function PageHeader({ title, children }: { title: ReactNode; children?: ReactNode }) {
   return (

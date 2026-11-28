@@ -1,6 +1,6 @@
 ---
 title: About me
-headline: Computer science at Iowa State, graduating fall 2027 · Data governance co-op at Sub-Zero Group, spring 2027
+headline: Computer science at Iowa State, graduating fall 2027
 study: Computer science, Iowa State University
 graduating: Fall 2027
 based: Ames, IA

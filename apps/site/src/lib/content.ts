@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
+import { formatMonth } from "./format";
 
 /** Root of the repo-level `content/` folder. Next and Vitest both run from `apps/site`. */
 export const contentDir = process.env.CONTENT_DIR ?? path.resolve(process.cwd(), "../../content");
@@ -59,7 +60,7 @@ async function listFiles(folder: string) {
 
 const slugOf = (file: string) => file.replace(/\.mdx?$/, "");
 
-/** About page facts, also the source of the one-line summary under the home tagline. */
+/** About page facts. `headline` is the study line under the home buttons; the work line comes from Experience. */
 const aboutSchema = z.object({
   title: z.string().min(1),
   headline: z.string().min(1),
@@ -129,6 +130,19 @@ export function groupExperience(entries: Experience[]): ExperienceGroup[] {
       status: statuses.has("current") ? "current" : statuses.has("upcoming") ? "upcoming" : "past",
     };
   });
+}
+
+/**
+ * The work line under the home buttons, built from Experience so it never goes stale: the next role
+ * to start when one is lined up ("Role at Org, starting Jan 2027"), otherwise the most recently
+ * started current role ("Role at Org"). Null when there is neither.
+ */
+export function workLine(entries: Experience[]) {
+  const byStart = [...entries].sort((a, b) => a.start.localeCompare(b.start));
+  const next = byStart.find((entry) => entry.status === "upcoming");
+  if (next) return `${next.role} at ${next.org}, starting ${formatMonth(next.start)}`;
+  const current = byStart.filter((entry) => entry.status === "current").at(-1);
+  return current ? `${current.role} at ${current.org}` : null;
 }
 
 export async function getEssays(options: { includeSamples?: boolean } = {}): Promise<Essay[]> {

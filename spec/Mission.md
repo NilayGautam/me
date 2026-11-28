@@ -27,7 +27,7 @@ One page that reads top to bottom:
 1. **Hero.**
    A photo of me, my name, and one short sentence.
    Two buttons sit under the sentence: **About** and **Contact**.
-   Under the buttons, a short facts line from the `headline` in `content/about.md`.
+   Under the buttons, two facts lines: the `headline` in `content/about.md`, and a work line built from the Experience entries (the next role to start, otherwise the latest current role), so it never goes stale.
 2. **Projects.**
    A slight scroll below the hero.
    Each project shows a name, a one-line description, and a link to where it runs.
@@ -57,7 +57,7 @@ It is reached from the button in the hero.
 ### Contact
 
 - The footer on every page shows `Contact: hello@nilaygautam.com`, and clicking the address copies it.
-- The **Contact** button in the hero jumps to that line.
+- The **Contact** button in the hero opens into the email address on the first click and copies it on the next, showing a check and "Copied" for a few seconds.
 - The footer also links GitHub and LinkedIn.
 - No mailto links, and no copyright line, since copyright applies without a notice.
 - No contact form.
@@ -70,7 +70,9 @@ Until the first project ships, the projects section lists it by name as in progr
 ### Photo
 
 The hero photo is `apps/site/assets/portrait-source.jpg`, a 4:5 crop of my beach photo with my dogs, with location metadata stripped.
-Run `pnpm --filter @nilaygautam/site images` after replacing it.
+The About page photo is `apps/site/assets/night-source.jpg`, a 4:5 crop of a night photo on the beach with my dogs.
+Photos are listed in `apps/site/src/photos.json`.
+Run `pnpm --filter @nilaygautam/site images` after adding or replacing one.
 A portrait without a cap and sunglasses may replace it later.
 
 ## Design direction
