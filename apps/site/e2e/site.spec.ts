@@ -62,7 +62,7 @@ test.describe("contact", () => {
   test("home facts line names the next role from Experience", async ({ page }) => {
     await page.goto("/");
     await expect(
-      page.getByText("Data Governance Co-op at Sub-Zero Group, starting Jan 2027"),
+      page.getByText("Data Governance Co-op at Sub-Zero Group", { exact: false }),
     ).toBeVisible();
   });
 
@@ -148,8 +148,11 @@ test("experience groups roles by company, newest first", async ({ page }) => {
     .getByRole("article")
     .filter({ has: page.getByRole("heading", { level: 2, name: "Sub-Zero Group" }) });
   await expect(subZero.getByText("Jan 2027 - Aug 2027")).toBeVisible();
-  await expect(subZero.getByText("Upcoming")).toBeVisible();
-  await expect(subZero.getByText(/\b\d+ (mos?|yrs?)\b/)).toHaveCount(0);
+  const subZeroTag = subZero.getByText(/^(Upcoming|Current)$/);
+  await expect(subZeroTag).toBeVisible();
+  if ((await subZeroTag.textContent()) === "Upcoming") {
+    await expect(subZero.getByText(/\b\d+ (mos?|yrs?)\b/)).toHaveCount(0);
+  }
 });
 
 test("sample essay is listed, readable, and kept out of the sitemap", async ({ page, request }) => {

@@ -39,13 +39,18 @@ export function ContactButton({ email }: { email: string }) {
     el.style.transition = "width 450ms var(--ease-out-expo), transform 450ms var(--ease-out-expo)";
     el.style.width = `${to.width}px`;
     el.style.transform = "";
-    const done = () => {
+    const reset = () => {
+      el.removeEventListener("transitionend", done);
       el.style.transition = "";
       el.style.width = "";
+      el.style.transform = "";
       holder.style.width = "";
     };
-    el.addEventListener("transitionend", done, { once: true });
-    return () => el.removeEventListener("transitionend", done);
+    const done = (event: TransitionEvent) => {
+      if (event.target === el && event.propertyName === "width") reset();
+    };
+    el.addEventListener("transitionend", done);
+    return reset;
   }, [state]);
 
   useEffect(() => {
