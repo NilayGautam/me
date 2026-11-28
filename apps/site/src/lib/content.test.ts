@@ -59,6 +59,13 @@ describe("format", () => {
     expect(formatPeriod({ start: "2027-01", end: "2027-08" })).toBe("Jan 2027 - Aug 2027");
     expect(formatPeriod({ start: "2027-01", end: "2027-01" })).toBe("Jan 2027");
   });
+
+  it("reads Present while a role with a planned end is under way", () => {
+    const coop = { start: "2027-01", end: "2027-09" };
+    expect(formatPeriod({ ...coop, status: "upcoming" })).toBe("Jan 2027 - Sep 2027");
+    expect(formatPeriod({ ...coop, status: "current" })).toBe("Jan 2027 - Present");
+    expect(formatPeriod({ ...coop, status: "past" })).toBe("Jan 2027 - Sep 2027");
+  });
 });
 
 describe("content folder", () => {
@@ -79,7 +86,7 @@ describe("formatDuration", () => {
 
   it("counts both end months", () => {
     expect(formatDuration("2025-10", "2026-05", today)).toBe("8 mos");
-    expect(formatDuration("2027-01", "2027-08", today)).toBe("8 mos");
+    expect(formatDuration("2027-01", "2027-08", new Date("2027-10-01T00:00:00Z"))).toBe("8 mos");
     expect(formatDuration("2026-03", "2026-03", today)).toBe("1 mo");
   });
 
@@ -88,8 +95,13 @@ describe("formatDuration", () => {
     expect(formatDuration("2024-12", undefined, today)).toBe("2 yrs");
   });
 
-  it("has nothing to measure for an open stint that has not started", () => {
+  it("stops counting at today while a stint with a planned end is under way", () => {
+    expect(formatDuration("2025-10", "2027-01", today)).toBe("1 yr 2 mos");
+  });
+
+  it("has nothing to measure for a stint that has not started", () => {
     expect(formatDuration("2027-01", undefined, today)).toBeNull();
+    expect(formatDuration("2027-01", "2027-09", today)).toBeNull();
   });
 });
 

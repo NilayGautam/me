@@ -59,11 +59,28 @@ test.describe("contact", () => {
     await expect(copy).toContainText("hello@nilaygautam.com");
   });
 
-  test("home facts line names the next role from Experience", async ({ page }) => {
+  test("home facts line names the next or current role from Experience", async ({ page }) => {
+    // The co-op is upcoming or current until it ends; after that the line is just the headline.
+    await page.goto("/experience/");
+    const coop = page
+      .getByRole("article")
+      .filter({ has: page.getByRole("heading", { level: 2, name: "Sub-Zero Group" }) });
+    const coopActive =
+      (await coop.getByRole("heading", { level: 3 }).textContent())?.startsWith("Incoming") ||
+      (await coop.getByText("Jan 2027 - Present").count()) > 0;
+
     await page.goto("/");
-    await expect(
-      page.getByText("Data Governance Co-op at Sub-Zero Group", { exact: false }),
-    ).toBeVisible();
+    const headline = "Computer science at Iowa State, graduating fall 2027";
+    const facts = page
+      .getByRole("region", { name: "Nilay Gautam" })
+      .locator("p")
+      .filter({ hasText: headline })
+      .locator("span");
+    await expect(facts).toHaveText(
+      coopActive
+        ? [headline, /^Data Governance Co-op at Sub-Zero Group(, starting Jan 2027)?$/]
+        : [headline],
+    );
   });
 
   test("clicking the email copies it to the clipboard", async ({ page, context }) => {
@@ -130,27 +147,30 @@ test("experience groups roles by company, newest first", async ({ page }) => {
   const companies = page.getByRole("heading", { level: 2 });
   await expect(companies).toHaveCount(2);
   await expect(companies.nth(0)).toHaveAccessibleName("Sub-Zero Group");
-  await expect(companies.nth(1).getByRole("img")).toHaveAccessibleName("Iowa State University");
+  await expect(companies.nth(1)).toHaveAccessibleName("Iowa State University");
+  // Dates follow the build date: a role not started yet reads "Incoming", one under way reads Present.
   await expect(page.getByRole("heading", { level: 3 })).toHaveText([
-    "Data Governance Co-op",
+    /^(Incoming )?Data Governance Co-op$/,
     "Research Assistant",
     "Teaching Assistant",
   ]);
+  await expect(page.getByText(/^(Upcoming|Current)$/)).toHaveCount(0);
+
   const iowaState = page
     .getByRole("article")
-    .filter({ has: page.getByAltText("Iowa State University") });
+    .filter({ has: page.getByRole("heading", { level: 2, name: "Iowa State University" }) });
   await expect(iowaState.getByText("Oct 2025 - May 2026")).toBeVisible();
-  await expect(iowaState.getByText("Jan 2026 - Present")).toBeVisible();
+  await expect(iowaState.getByText(/^Jan 2026 - (Present|Jan 2027)$/)).toBeVisible();
   await expect(iowaState.getByText("1 yr", { exact: false })).toBeVisible();
 
-  // An upcoming company shows its dates and tag, but no time there yet.
+  // An upcoming company shows its dates but no time there yet.
   const subZero = page
     .getByRole("article")
     .filter({ has: page.getByRole("heading", { level: 2, name: "Sub-Zero Group" }) });
-  await expect(subZero.getByText("Jan 2027 - Aug 2027")).toBeVisible();
-  const subZeroTag = subZero.getByText(/^(Upcoming|Current)$/);
-  await expect(subZeroTag).toBeVisible();
-  if ((await subZeroTag.textContent()) === "Upcoming") {
+  await expect(subZero.getByText(/^Jan 2027 - (Sep 2027|Present)$/)).toBeVisible();
+  const coop = subZero.getByRole("heading", { level: 3 });
+  if ((await coop.textContent())?.startsWith("Incoming")) {
+    await expect(subZero.getByText("Jan 2027 - Sep 2027")).toBeVisible();
     await expect(subZero.getByText(/\b\d+ (mos?|yrs?)\b/)).toHaveCount(0);
   }
 });

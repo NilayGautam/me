@@ -3,6 +3,7 @@ role: Research Assistant
 org: Iowa State University
 location: Ames, IA
 start: 2026-01
+end: 2027-01
 ---
 
 I started by building simulation software in Python, JavaScript, HTML, and CSS that lets non-technical researchers run a simulation in their browser and test several hypotheses from one adjustable app.

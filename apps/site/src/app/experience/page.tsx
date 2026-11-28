@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { PageHeader, Section, Tag } from "@/components/ui";
+import { PageHeader, Section } from "@/components/ui";
 import { type Experience, getExperience, groupExperience } from "@/lib/content";
 import { formatDuration, formatPeriod } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
@@ -12,11 +12,10 @@ export const metadata: Metadata = pageMetadata({
   description: "Where I've worked and what I built there.",
 });
 
-const statusLabel = { upcoming: "Upcoming", current: "Current", past: null } as const;
-
 /**
- * Logos shown in place of the typed company name. Every logo is drawn at the same width, so a
- * long one-line wordmark and a row of boxed marks carry about the same weight; heights follow.
+ * Logos stand in for the company name and name the company heading through their alt text.
+ * Every logo is drawn at the same width, so a long one-line wordmark and a row of boxed marks
+ * carry about the same weight; heights follow.
  * Iowa State: the official one-line wordmark from the university style guide, recolored white.
  * Sub-Zero Group: the Wolf, Sub-Zero, and Cove marks cut from an HR announcement image.
  */
@@ -27,8 +26,6 @@ const orgLogos: Record<
     alt: string;
     width: number;
     height: number;
-    /** Shown under the logo when the logo alone does not spell out the company name. */
-    name?: string;
   }
 > = {
   "Iowa State University": {
@@ -39,10 +36,9 @@ const orgLogos: Record<
   },
   "Sub-Zero Group": {
     src: "/logos/sub-zero-group.webp",
-    alt: "Wolf, Sub-Zero, and Cove",
+    alt: "Sub-Zero Group",
     width: 1063,
     height: 96,
-    name: "Sub-Zero Group",
   },
 };
 
@@ -56,10 +52,8 @@ export default async function ExperiencePage() {
       <Section className="pt-0 sm:pt-0">
         <ol>
           {groups.map((group) => {
-            const status = statusLabel[group.status];
-            // Time there counts only once it has started: an upcoming company shows just its tag.
-            const duration =
-              group.status === "upcoming" ? null : formatDuration(group.start, group.end, today);
+            // Time there counts only once it has started, and grows with each rebuild (see deploy-site.yml).
+            const duration = formatDuration(group.start, group.end, today);
             return (
               <li key={group.org} className="border-line border-b">
                 <article className="grid gap-6 py-10 lg:grid-cols-12 lg:gap-10">
@@ -68,20 +62,8 @@ export default async function ExperiencePage() {
                     <h2>
                       <OrgName org={group.org} />
                     </h2>
-                    {duration || status ? (
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:justify-center">
-                        {status ? (
-                          <Tag
-                            accent={group.status === "current"}
-                            upcoming={group.status === "upcoming"}
-                          >
-                            {status}
-                          </Tag>
-                        ) : null}
-                        {duration ? (
-                          <p className="text-muted text-sm tabular-nums">{duration}</p>
-                        ) : null}
-                      </div>
+                    {duration ? (
+                      <p className="text-muted text-sm tabular-nums">{duration}</p>
                     ) : null}
                   </div>
                   <div className="lg:col-span-8">
@@ -125,7 +107,9 @@ export default async function ExperiencePage() {
 function Role({ entry }: { entry: Experience }) {
   return (
     <>
-      <h3 className="font-medium text-2xl text-fg tracking-tight">{entry.role}</h3>
+      <h3 className="font-medium text-2xl text-fg tracking-tight">
+        {entry.status === "upcoming" ? `Incoming ${entry.role}` : entry.role}
+      </h3>
       <p className="mt-2 text-muted">
         <span className="tabular-nums">{formatPeriod(entry)}</span>
         <span aria-hidden="true" className="mx-2.5 text-subtle">
@@ -146,21 +130,13 @@ function Role({ entry }: { entry: Experience }) {
 function OrgName({ org }: { org: string }) {
   const logo = orgLogos[org];
   if (!logo) return <span className="font-medium text-fg text-lg">{org}</span>;
-  const image = (
+  return (
     <Image
       src={logo.src}
-      alt={logo.name ? "" : logo.alt}
+      alt={logo.alt}
       width={logo.width}
       height={logo.height}
-      className="h-auto w-60 max-w-full"
+      className="h-auto w-72 max-w-full"
     />
-  );
-  if (!logo.name) return image;
-  // The visible name labels the heading; the brand marks above it are decoration.
-  return (
-    <span className="flex flex-col items-start gap-2 lg:items-center">
-      {image}
-      <span className="font-normal text-muted text-sm">{logo.name}</span>
-    </span>
   );
 }
