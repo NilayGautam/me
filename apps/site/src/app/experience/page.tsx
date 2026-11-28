@@ -15,8 +15,8 @@ export const metadata: Metadata = pageMetadata({
 const statusLabel = { upcoming: "Upcoming", current: "Current", past: null } as const;
 
 /**
- * Logos shown in place of the typed company name. Heights are set so the lettering inside each
- * logo reads at about the size of the text beside it.
+ * Logos shown in place of the typed company name. Every logo is drawn at the same width, so a
+ * long one-line wordmark and a row of boxed marks carry about the same weight; heights follow.
  * Iowa State: the official one-line wordmark from the university style guide, recolored white.
  * Sub-Zero Group: the Wolf, Sub-Zero, and Cove marks cut from an HR announcement image.
  */
@@ -27,7 +27,6 @@ const orgLogos: Record<
     alt: string;
     width: number;
     height: number;
-    className: string;
     /** Shown under the logo when the logo alone does not spell out the company name. */
     name?: string;
   }
@@ -37,14 +36,12 @@ const orgLogos: Record<
     alt: "Iowa State University",
     width: 459,
     height: 34,
-    className: "h-4",
   },
   "Sub-Zero Group": {
     src: "/logos/sub-zero-group.webp",
     alt: "Wolf, Sub-Zero, and Cove",
     width: 1063,
     height: 96,
-    className: "h-7",
     name: "Sub-Zero Group",
   },
 };
@@ -66,15 +63,13 @@ export default async function ExperiencePage() {
             return (
               <li key={group.org} className="border-line border-b">
                 <article className="grid gap-6 py-10 lg:grid-cols-12 lg:gap-10">
-                  <div className="flex flex-col items-start gap-3 lg:col-span-4 lg:pt-1.5">
+                  {/* From lg the company block is centered in its column; stacked on phones it keeps the left edge. */}
+                  <div className="flex flex-col items-start gap-3 lg:col-span-4 lg:items-center lg:pt-1.5 lg:text-center">
                     <h2>
                       <OrgName org={group.org} />
                     </h2>
                     {duration || status ? (
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                        {duration ? (
-                          <p className="text-muted text-sm tabular-nums">{duration}</p>
-                        ) : null}
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:justify-center">
                         {status ? (
                           <Tag
                             accent={group.status === "current"}
@@ -82,6 +77,9 @@ export default async function ExperiencePage() {
                           >
                             {status}
                           </Tag>
+                        ) : null}
+                        {duration ? (
+                          <p className="text-muted text-sm tabular-nums">{duration}</p>
                         ) : null}
                       </div>
                     ) : null}
@@ -154,13 +152,13 @@ function OrgName({ org }: { org: string }) {
       alt={logo.name ? "" : logo.alt}
       width={logo.width}
       height={logo.height}
-      className={`${logo.className} w-auto max-w-full object-contain object-left`}
+      className="h-auto w-60 max-w-full"
     />
   );
   if (!logo.name) return image;
   // The visible name labels the heading; the brand marks above it are decoration.
   return (
-    <span className="flex flex-col items-start gap-2">
+    <span className="flex flex-col items-start gap-2 lg:items-center">
       {image}
       <span className="font-normal text-muted text-sm">{logo.name}</span>
     </span>

@@ -8,6 +8,7 @@ import {
   getNow,
   groupExperience,
   parseFrontmatter,
+  workLine,
 } from "./content";
 import { formatDate, formatDuration, formatMonth, formatPeriod } from "./format";
 
@@ -129,5 +130,34 @@ describe("groupExperience", () => {
       role("A", "2025-10", "2026-05"),
     ]);
     expect([open?.start, open?.end, open?.status]).toEqual(["2025-10", undefined, "current"]);
+  });
+});
+
+describe("workLine", () => {
+  const role = (name: string, start: string, status: Experience["status"]) =>
+    ({ org: "Org", role: name, location: "", start, slug: name, body: "", status }) as Experience;
+
+  it("names the soonest upcoming role with its start month, ahead of current ones", () => {
+    expect(
+      workLine([
+        role("Later", "2027-09", "upcoming"),
+        role("Co-op", "2027-01", "upcoming"),
+        role("Assistant", "2026-01", "current"),
+      ]),
+    ).toBe("Co-op at Org, starting Jan 2027");
+  });
+
+  it("falls back to the most recently started current role once nothing is upcoming", () => {
+    expect(
+      workLine([
+        role("Co-op", "2027-01", "current"),
+        role("Assistant", "2026-01", "current"),
+        role("Old", "2025-01", "past"),
+      ]),
+    ).toBe("Co-op at Org");
+  });
+
+  it("is empty when every role is in the past", () => {
+    expect(workLine([role("Old", "2025-01", "past")])).toBeNull();
   });
 });

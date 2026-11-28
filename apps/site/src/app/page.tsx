@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ContactButton } from "@/components/contact-button";
 import { ArrowRight } from "@/components/icons";
 import { Portrait } from "@/components/portrait";
-import { ButtonAnchor, ButtonLink, Section, SectionHeading, Tag } from "@/components/ui";
-import { getAbout, getNow } from "@/lib/content";
+import { ButtonLink, Section, SectionHeading, Tag } from "@/components/ui";
+import { getAbout, getExperience, getNow, workLine } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
 import { pageMetadata } from "@/lib/metadata";
@@ -30,7 +31,8 @@ const projects = [
  * 9.75rem of the first screen so the Projects heading shows below it, which says there is more.
  */
 export default async function HomePage() {
-  const [now, about] = await Promise.all([getNow(), getAbout()]);
+  const [now, about, experience] = await Promise.all([getNow(), getAbout(), getExperience()]);
+  const facts = [about.data.headline, workLine(experience)].filter(Boolean);
   const [firstName, ...rest] = site.name.split(" ");
 
   return (
@@ -48,14 +50,12 @@ export default async function HomePage() {
               <ButtonLink href="/about" arrow>
                 About me
               </ButtonLink>
-              <ButtonAnchor href="#contact" variant="secondary">
-                Contact
-              </ButtonAnchor>
+              <ContactButton email={site.email} />
             </div>
             {/* Facts sit under the buttons so the buttons stay on a phone's first screen, one per line. */}
             <p className="mt-6 text-muted text-sm">
-              {about.data.headline.split(" · ").map((fact) => (
-                <span key={fact} className="block">
+              {facts.map((fact) => (
+                <span key={fact} className="block text-balance">
                   {fact}
                 </span>
               ))}
@@ -64,7 +64,7 @@ export default async function HomePage() {
           <figure className="hero-photo relative order-1 h-[clamp(20rem,58svh,44rem)] w-full overflow-hidden bg-surface after:pointer-events-none after:absolute after:inset-x-0 after:top-1/2 after:bottom-0 after:bg-linear-to-b after:from-transparent after:to-bg lg:absolute lg:inset-y-0 lg:right-0 lg:order-2 lg:h-auto lg:w-[60%] lg:bg-transparent lg:after:hidden">
             <Portrait
               sizes="(min-width: 1152px) 700px, (min-width: 1024px) 60vw, 100vw"
-              className="lg:object-[50%_40%]"
+              className="lg:object-[50%_90%]"
             />
           </figure>
         </div>

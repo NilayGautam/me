@@ -1,29 +1,35 @@
-const widths = [480, 800, 1200] as const;
-const srcSet = (format: string) =>
-  widths.map((w) => `/images/portrait-${w}.${format} ${w}w`).join(", ");
+import photos from "@/photos.json";
 
-/** Hero photo. Pre-sized by `scripts/optimize-portrait.mjs`, so no image server is needed. */
+/**
+ * A photo from `src/photos.json`. Pre-sized by `scripts/optimize-photos.mjs`, so no image server is needed.
+ * `portrait` is the home hero; `night` is the About page photo.
+ */
 export function Portrait({
+  photo = "portrait",
   sizes,
   className = "",
   priority = true,
 }: {
+  photo?: keyof typeof photos;
   sizes: string;
   className?: string;
   /** The home hero loads it first; other pages load it lazily. */
   priority?: boolean;
 }) {
+  const { widths, width, height, alt } = photos[photo];
+  const srcSet = (format: string) =>
+    widths.map((w) => `/images/${photo}-${w}.${format} ${w}w`).join(", ");
   return (
     <picture>
       <source type="image/avif" srcSet={srcSet("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcSet("webp")} sizes={sizes} />
       <img
-        src="/images/portrait-800.jpg"
+        src={`/images/${photo}-${widths[0]}.jpg`}
         srcSet={srcSet("jpg")}
         sizes={sizes}
-        width={1600}
-        height={2000}
-        alt="Nilay Gautam kneeling on a beach with two beagles"
+        width={width}
+        height={height}
+        alt={alt}
         fetchPriority={priority ? "high" : "auto"}
         loading={priority ? "eager" : "lazy"}
         decoding="async"

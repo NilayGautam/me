@@ -36,9 +36,9 @@
   --text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
   --text-lead--line-height: 1.35;
   --text-lead--letter-spacing: -0.015em;
-  --text-tag: 0.6875rem;
+  --text-tag: 0.75rem;
   --text-tag--line-height: 1;
-  --text-tag--letter-spacing: 0.08em;
+  --text-tag--letter-spacing: 0.07em;
 
   --container-page: 72rem;
   --container-reading: 40rem;

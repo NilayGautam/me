@@ -10,7 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "e2e": "playwright test",
-    "images": "node scripts/optimize-portrait.mjs",
+    "images": "node scripts/optimize-photos.mjs",
     "fonts": "node scripts/subset-fonts.mjs",
     "lighthouse": "lhci autorun"
   },

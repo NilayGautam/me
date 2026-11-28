@@ -12,7 +12,6 @@ test.describe("home", () => {
       page.getByText("Always learning, solving, building, and loving it."),
     ).toBeVisible();
     await expect(page.getByRole("img", { name: /Nilay Gautam/ })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Contact" })).toHaveAttribute("href", "#contact");
     await expect(page.getByRole("region", { name: "Projects" })).toBeAttached();
     await expect(page.getByRole("region", { name: "Now" })).toContainText(
       "Replacing myself at my research job.",
@@ -41,11 +40,30 @@ test.describe("home", () => {
 });
 
 test.describe("contact", () => {
-  test("hero Contact button jumps to the footer contact line", async ({ page }) => {
+  test("hero Contact button opens into the email, then copies it", async ({ page, context }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await page.goto("/");
-    await page.getByRole("link", { name: "Contact" }).click();
-    await expect(page).toHaveURL(/#contact$/);
-    await expect(page.locator("#contact")).toBeInViewport();
+    const hero = page.getByRole("region", { name: "Nilay Gautam" });
+    await hero.getByRole("button", { name: "Contact" }).click();
+    const copy = hero.getByRole("button", { name: "Copy email address hello@nilaygautam.com" });
+    await expect(copy).toContainText("hello@nilaygautam.com");
+    await expect(copy).toBeFocused();
+
+    await copy.click();
+    await expect(copy).toContainText("Copied");
+    await expect(hero.getByText("Email address copied")).toBeAttached();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("hello@nilaygautam.com");
+
+    // The check stays a few seconds, then the address comes back.
+    await expect(copy).not.toContainText("Copied", { timeout: 6000 });
+    await expect(copy).toContainText("hello@nilaygautam.com");
+  });
+
+  test("home facts line names the next role from Experience", async ({ page }) => {
+    await page.goto("/");
+    await expect(
+      page.getByText("Data Governance Co-op at Sub-Zero Group, starting Jan 2027"),
+    ).toBeVisible();
   });
 
   test("clicking the email copies it to the clipboard", async ({ page, context }) => {

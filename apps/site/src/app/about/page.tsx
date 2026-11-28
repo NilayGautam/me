@@ -62,7 +62,7 @@ export default async function AboutPage() {
             </div>
           </div>
           <figure className="relative hidden aspect-4/5 overflow-hidden rounded-lg border border-line bg-surface lg:col-span-5 lg:block lg:self-start">
-            <Portrait sizes="(min-width: 1152px) 440px, 38vw" priority={false} />
+            <Portrait photo="night" sizes="(min-width: 1152px) 440px, 38vw" priority={false} />
           </figure>
         </div>
       </Section>
