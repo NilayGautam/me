@@ -30,7 +30,7 @@ export function CopyEmail({ email }: { email: string }) {
       type="button"
       onClick={copy}
       aria-label={`Copy email address ${email}`}
-      className="group inline-flex select-text items-center gap-2 text-fg transition-colors duration-fast hover:text-white"
+      className="group -my-3 inline-flex select-text items-center gap-2 py-3 text-fg transition-colors duration-fast hover:text-white"
     >
       <span
         id="contact-email"

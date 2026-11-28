@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "@/components/icons";
 import { Portrait } from "@/components/portrait";
 import { ButtonAnchor, ButtonLink, Section, SectionHeading, Tag } from "@/components/ui";
-import { getNow } from "@/lib/content";
+import { getAbout, getNow } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { Markdown } from "@/lib/mdx";
 import { pageMetadata } from "@/lib/metadata";
@@ -23,27 +23,28 @@ const projects = [
 ] as const;
 
 /**
- * From the lg breakpoint the hero is sized from the viewport so the fold cuts through the first project
- * row (13.75rem of Projects showing), which tells visitors there is more below. The portrait shrinks with
- * the viewport height to make room. Phones and tablets keep a fixed portrait: their browsers leave too
- * little height for the heading to fit above the fold without shrinking the photo to a thumbnail.
+ * Below lg the portrait runs edge to edge across most of the first screen and fades into the page,
+ * with the name set on the fade, so the first screen reads photo, name, tagline, then the buttons.
+ * From lg the same idea turns sideways: the portrait fills the hero's right side at full height,
+ * bleeding to the frame edge and fading left behind the name (see `.hero-photo`). The hero leaves
+ * 9.75rem of the first screen so the Projects heading shows below it, which says there is more.
  */
 export default async function HomePage() {
-  const now = await getNow();
+  const [now, about] = await Promise.all([getNow(), getAbout()]);
   const [firstName, ...rest] = site.name.split(" ");
 
   return (
     <>
       <section aria-labelledby="hero-title" className="border-line border-b">
-        <div className="grid gap-12 px-6 pt-10 pb-16 sm:px-10 sm:pt-16 lg:min-h-[calc(100svh-4rem-13.75rem)] lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-12 lg:pb-14">
-          <div className="order-2 lg:order-1 lg:col-span-7">
+        <div className="grid pb-16 lg:relative lg:min-h-[calc(100svh-4rem-9.75rem)] lg:grid-cols-12 lg:items-end lg:px-10 lg:pt-12 lg:pb-16">
+          <div className="relative z-10 order-2 -mt-24 px-6 sm:-mt-28 sm:px-10 lg:order-1 lg:col-span-6 lg:mt-0 lg:px-0">
             <h1 id="hero-title" className="font-bold font-display text-display text-fg">
               {firstName}
               <br />
               {rest.join(" ")}
             </h1>
             <p className="mt-8 max-w-[28ch] text-balance text-lead text-muted">{site.tagline}</p>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/about" arrow>
                 About me
               </ButtonLink>
@@ -51,12 +52,21 @@ export default async function HomePage() {
                 Contact
               </ButtonAnchor>
             </div>
+            {/* Facts sit under the buttons so the buttons stay on a phone's first screen, one per line. */}
+            <p className="mt-6 text-muted text-sm">
+              {about.data.headline.split(" · ").map((fact) => (
+                <span key={fact} className="block">
+                  {fact}
+                </span>
+              ))}
+            </p>
           </div>
-          <div className="order-1 lg:order-2 lg:col-span-5 lg:@container">
-            <figure className="relative aspect-4/5 h-75 overflow-hidden rounded-lg border border-line bg-surface sm:h-90 lg:ml-auto lg:h-[clamp(20rem,calc(100svh-24.25rem),125cqw)]">
-              <Portrait sizes="(min-width: 1152px) 440px, (min-width: 1024px) 38vw, (min-width: 640px) 288px, 240px" />
-            </figure>
-          </div>
+          <figure className="hero-photo relative order-1 h-[clamp(20rem,58svh,44rem)] w-full overflow-hidden bg-surface after:pointer-events-none after:absolute after:inset-x-0 after:top-1/2 after:bottom-0 after:bg-linear-to-b after:from-transparent after:to-bg lg:absolute lg:inset-y-0 lg:right-0 lg:order-2 lg:h-auto lg:w-[60%] lg:bg-transparent lg:after:hidden">
+            <Portrait
+              sizes="(min-width: 1152px) 700px, (min-width: 1024px) 60vw, 100vw"
+              className="lg:object-[50%_40%]"
+            />
+          </figure>
         </div>
       </section>
 
@@ -67,7 +77,7 @@ export default async function HomePage() {
             <li key={project.name} className="border-line border-b">
               <Link
                 href={project.href}
-                className="group grid gap-3 py-8 sm:grid-cols-12 sm:items-center sm:gap-6"
+                className="group grid gap-3 py-8 sm:grid-cols-12 sm:items-baseline sm:gap-6"
               >
                 <span className="font-medium text-2xl text-fg tracking-tight transition-colors duration-fast sm:col-span-4">
                   {project.name}

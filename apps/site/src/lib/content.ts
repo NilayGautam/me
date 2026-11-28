@@ -9,7 +9,6 @@ export const contentDir = process.env.CONTENT_DIR ?? path.resolve(process.cwd(),
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Expected a date like 2026-11-26");
 const isoMonth = z.string().regex(/^\d{4}-\d{2}$/, "Expected a month like 2026-01");
 
-const pageSchema = z.object({ title: z.string().min(1) }).loose();
 const nowSchema = z.object({ title: z.string().min(1), updated: isoDate });
 const experienceSchema = z
   .object({
@@ -60,8 +59,17 @@ async function listFiles(folder: string) {
 
 const slugOf = (file: string) => file.replace(/\.mdx?$/, "");
 
+/** About page facts, also the source of the one-line summary under the home tagline. */
+const aboutSchema = z.object({
+  title: z.string().min(1),
+  headline: z.string().min(1),
+  study: z.string().min(1),
+  graduating: z.string().min(1),
+  based: z.string().min(1),
+});
+
 export async function getAbout() {
-  return loadFile("about.md", pageSchema);
+  return loadFile("about.md", aboutSchema);
 }
 
 export async function getNow() {

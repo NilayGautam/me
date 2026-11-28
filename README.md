@@ -15,7 +15,7 @@ pnpm dev          # http://localhost:3000
 
 ## Edit content
 
-- `content/about.md`, `content/now.md`: About page and the Now section.
+- `content/about.md`, `content/now.md`: About page (and the facts line under the home hero) and the Now section.
 - `content/experience/*.md`: one file per role.
 - `content/essays/*.mdx`: essays.
 - `apps/site/src/site.ts`: name, hero sentence, email, and links.

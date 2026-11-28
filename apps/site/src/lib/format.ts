@@ -55,9 +55,5 @@ export function formatPeriod(entry: {
   if (entry.period) return entry.period;
   if (!entry.end) return `${formatMonth(entry.start)} - Present`;
   if (entry.start === entry.end) return formatMonth(entry.end);
-  // A range inside one year names the year once: `Jan - Aug 2027`.
-  if (entry.start.slice(0, 4) === entry.end.slice(0, 4)) {
-    return `${formatMonth(entry.start).split(" ")[0]} - ${formatMonth(entry.end)}`;
-  }
   return `${formatMonth(entry.start)} - ${formatMonth(entry.end)}`;
 }

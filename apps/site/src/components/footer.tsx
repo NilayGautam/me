@@ -22,7 +22,7 @@ export function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1 text-muted text-sm transition-colors duration-fast hover:text-fg"
+                className="group -my-3 inline-flex items-center gap-1 py-3 text-muted text-sm transition-colors duration-fast hover:text-fg"
               >
                 {link.label}
                 <ArrowUpRight className="size-3 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

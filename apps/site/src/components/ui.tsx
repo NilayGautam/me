@@ -14,16 +14,28 @@ export function SectionHeading({ id, children }: { id: string; children: ReactNo
 
 /**
  * Status set as a line of data beside the dates, not as a chip: small tracked caps with no container.
- * `accent` marks a live status with a small square in the accent color.
+ * `accent` marks a live status with a filled square in the accent color; `upcoming` marks a status
+ * that has not started yet with a hollow square, so the marker shape carries the state, not only color.
  */
-export function Tag({ children, accent = false }: { children: ReactNode; accent?: boolean }) {
+export function Tag({
+  children,
+  accent = false,
+  upcoming = false,
+}: {
+  children: ReactNode;
+  accent?: boolean;
+  upcoming?: boolean;
+}) {
   return (
     <span
       className={`inline-flex items-center gap-2 font-medium text-tag uppercase ${
-        accent ? "text-accent" : "text-subtle"
+        accent ? "text-accent" : "text-muted"
       }`}
     >
       {accent ? <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" /> : null}
+      {upcoming ? (
+        <span aria-hidden="true" className="size-1.5 shrink-0 border border-current" />
+      ) : null}
       {children}
     </span>
   );
