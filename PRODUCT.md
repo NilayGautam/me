@@ -32,7 +32,7 @@ The current example is a research tool meant to replace Nilay's own role by turn
 
 - Nilay is a senior in computer science at Iowa State University, graduating in fall 2027.
 - Current role: research assistant at Iowa State, building a reusable data-matching pipeline (fuzzy and lexical matching, then JEV, a decision model by Typesafe).
-- Upcoming: Data Governance co-op at Sub-Zero Group in Madison, WI, spring and summer 2027.
+- Upcoming: Data Governance co-op at Sub-Zero Group in Madison, WI, January to September 2027.
 - Past: teaching assistant for a new graduate Supply Chain Analytics course (SCM 5300).
 - Visitors mostly arrive from applications, LinkedIn, and GitHub, on desktop and phone.
 

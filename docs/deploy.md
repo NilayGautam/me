@@ -2,7 +2,7 @@
 
 The site is a static export served by a Cloudflare Worker on `nilaygautam.com`.
 Merging to `main` runs CI, then deploys with `wrangler deploy` from `apps/site`.
-A weekly scheduled run (Mondays at 06:17 UTC) rebuilds and redeploys without a push, because Experience durations and Current / Upcoming tags are computed at build time.
+A weekly scheduled run (Mondays at 06:17 UTC) rebuilds and redeploys without a push, because Experience durations, dates, and "Incoming" role titles are computed at build time.
 
 ## How it fits together
 
