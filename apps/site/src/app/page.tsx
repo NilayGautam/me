@@ -62,10 +62,7 @@ export default async function HomePage() {
             </p>
           </div>
           <figure className="hero-photo relative order-1 h-[clamp(20rem,58svh,44rem)] w-full overflow-hidden bg-surface after:pointer-events-none after:absolute after:inset-x-0 after:top-1/2 after:bottom-0 after:bg-linear-to-b after:from-transparent after:to-bg lg:absolute lg:inset-y-0 lg:right-0 lg:order-2 lg:h-auto lg:w-[60%] lg:bg-transparent lg:after:hidden">
-            <Portrait
-              sizes="(min-width: 1152px) 700px, (min-width: 1024px) 60vw, 100vw"
-              className="lg:object-[50%_90%]"
-            />
+            <Portrait sizes="(min-width: 1152px) 700px, (min-width: 1024px) 60vw, 100vw" />
           </figure>
         </div>
       </section>

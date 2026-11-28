@@ -84,6 +84,13 @@
         ),
         linear-gradient(to top, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.35) 6%, #000 16%);
       mask-composite: intersect;
+      container-type: size;
+    }
+    /* The 4:5 photo is 125cqw tall at the frame's width, and the frame is usually shorter, so
+       something gets cut. Crop from the top only up to 21cqw, which keeps the hat clear of the top
+       edge (it starts about 27cqw down), and take the rest off the bottom: knees and paws. */
+    .hero-photo img {
+      object-position: 50% calc(-1 * min(21cqw, max(0px, 125cqw - 100cqh)));
     }
   }
 
