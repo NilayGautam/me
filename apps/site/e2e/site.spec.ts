@@ -59,11 +59,28 @@ test.describe("contact", () => {
     await expect(copy).toContainText("hello@nilaygautam.com");
   });
 
-  test("home facts line names the next role from Experience", async ({ page }) => {
+  test("home facts line names the next or current role from Experience", async ({ page }) => {
+    // The co-op is upcoming or current until it ends; after that the line is just the headline.
+    await page.goto("/experience/");
+    const coop = page
+      .getByRole("article")
+      .filter({ has: page.getByRole("heading", { level: 2, name: "Sub-Zero Group" }) });
+    const coopActive =
+      (await coop.getByRole("heading", { level: 3 }).textContent())?.startsWith("Incoming") ||
+      (await coop.getByText("Jan 2027 - Present").count()) > 0;
+
     await page.goto("/");
-    await expect(
-      page.getByText("Data Governance Co-op at Sub-Zero Group", { exact: false }),
-    ).toBeVisible();
+    const headline = "Computer science at Iowa State, graduating fall 2027";
+    const facts = page
+      .getByRole("region", { name: "Nilay Gautam" })
+      .locator("p")
+      .filter({ hasText: headline })
+      .locator("span");
+    await expect(facts).toHaveText(
+      coopActive
+        ? [headline, /^Data Governance Co-op at Sub-Zero Group(, starting Jan 2027)?$/]
+        : [headline],
+    );
   });
 
   test("clicking the email copies it to the clipboard", async ({ page, context }) => {
