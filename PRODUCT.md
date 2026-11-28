@@ -40,7 +40,7 @@ The current example is a research tool meant to replace Nilay's own role by turn
 
 - Pages: home (hero, projects, Now), About (reached from a hero button, not the nav), Experience, Essays, and a work-in-progress page.
 - Top nav holds only Experience and Essays.
-- Contact: the footer shows "Contact: hello@nilaygautam.com", and clicking the address copies it. The hero Contact button jumps to that line. No mailto links and no contact form.
+- Contact: the footer shows "Contact: hello@nilaygautam.com", and clicking the address copies it. The hero Contact button opens into the address and copies it too. No mailto links and no contact form.
 - No copyright line: copyright applies automatically without a notice.
 - Experience is a live resume written as paragraphs. No PDF and no resume page.
 - Projects run on Azure Container Apps that scale to zero, so a cold start of a few seconds is accepted. Nothing runs 24/7.
